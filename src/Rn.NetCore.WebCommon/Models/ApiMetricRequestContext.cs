@@ -9,8 +9,8 @@ namespace Rn.NetCore.WebCommon.Models
 {
   public class ApiMetricRequestContext
   {
-    public DateTime? RequestStartTime { get; private set; }
-    public DateTime? RequestEndTime { get; private set; }
+    public DateTime? StartTime { get; private set; }
+    public DateTime? EndTime { get; private set; }
     public DateTime? ActionStartTime { get; private set; }
     public DateTime? ActionEndTime { get; private set; }
     public DateTime? ResultsStartTime { get; private set; }
@@ -20,17 +20,17 @@ namespace Rn.NetCore.WebCommon.Models
     public DateTime? MiddlewareEndTime { get; private set; }
     public string Controller { get; private set; }
     public string Action { get; private set; }
-    public string RequestGuid { get; private set; }
+    public string Guid { get; private set; }
     public string ExceptionName { get; private set; }
-    public string RequestMethod { get; private set; }
-    public string RequestContentType { get; private set; }
-    public long RequestContentLength { get; private set; }
-    public string RequestProtocol { get; private set; }
-    public string RequestScheme { get; private set; }
-    public int RequestCookieCount { get; private set; }
-    public int RequestHeaderCount { get; private set; }
-    public string RequestHost { get; private set; }
-    public int RequestPort { get; private set; }
+    public string Method { get; private set; }
+    public string ContentType { get; private set; }
+    public long ContentLength { get; private set; }
+    public string Protocol { get; private set; }
+    public string Scheme { get; private set; }
+    public int CookieCount { get; private set; }
+    public int HeaderCount { get; private set; }
+    public string Host { get; private set; }
+    public int Port { get; private set; }
     public int ResponseCode { get; private set; }
     public string ResponseContentType { get; private set; }
     public long ResponseContentLength { get; private set; }
@@ -40,9 +40,8 @@ namespace Rn.NetCore.WebCommon.Models
     // Constructors
     public ApiMetricRequestContext()
     {
-      // TODO: [TESTS] (ApiMetricRequestContext) Add tests
-      RequestStartTime = null;
-      RequestEndTime = null;
+      StartTime = null;
+      EndTime = null;
       ActionStartTime = null;
       ActionEndTime = null;
       ResultsStartTime = null;
@@ -52,17 +51,17 @@ namespace Rn.NetCore.WebCommon.Models
       MiddlewareEndTime = null;
       Controller = string.Empty;
       Action = string.Empty;
-      RequestGuid = string.Empty;
+      Guid = string.Empty;
       ExceptionName = string.Empty;
-      RequestMethod = string.Empty;
-      RequestContentType = string.Empty;
-      RequestContentLength = 0;
-      RequestProtocol = string.Empty;
-      RequestScheme = string.Empty;
-      RequestCookieCount = 0;
-      RequestHeaderCount = 0;
-      RequestHost = string.Empty;
-      RequestPort = 0;
+      Method = string.Empty;
+      ContentType = string.Empty;
+      ContentLength = 0;
+      Protocol = string.Empty;
+      Scheme = string.Empty;
+      CookieCount = 0;
+      HeaderCount = 0;
+      Host = string.Empty;
+      Port = 0;
       ResponseCode = 0;
       ResponseContentType = string.Empty;
       ResponseContentLength = 0;
@@ -72,15 +71,13 @@ namespace Rn.NetCore.WebCommon.Models
     public ApiMetricRequestContext(DateTime requestStartTime)
       : this()
     {
-      // TODO: [TESTS] (ApiMetricRequestContext) Add tests
-      RequestStartTime = requestStartTime;
+      StartTime = requestStartTime;
     }
 
 
     // Builder Methods (simple)
     public ApiMetricRequestContext SetController(string controller, bool forceOverwrite = false)
     {
-      // TODO: [TESTS] (ApiMetricRequestContext.SetController) Add tests
       if (string.IsNullOrWhiteSpace(controller))
         return this;
 
@@ -110,10 +107,10 @@ namespace Rn.NetCore.WebCommon.Models
       if (string.IsNullOrWhiteSpace(method))
         return this;
 
-      if (!string.IsNullOrEmpty(RequestMethod) && !forceOverwrite)
+      if (!string.IsNullOrEmpty(Method) && !forceOverwrite)
         return this;
 
-      RequestMethod = method.UpperTrim();
+      Method = method.UpperTrim();
       return this;
     }
 
@@ -123,10 +120,10 @@ namespace Rn.NetCore.WebCommon.Models
       if (string.IsNullOrWhiteSpace(contentType))
         return this;
 
-      if (!string.IsNullOrEmpty(RequestContentType) && !forceOverwrite)
+      if (!string.IsNullOrEmpty(ContentType) && !forceOverwrite)
         return this;
 
-      RequestContentType = contentType;
+      ContentType = contentType;
       return this;
     }
 
@@ -137,10 +134,10 @@ namespace Rn.NetCore.WebCommon.Models
       if (safeLength == 0)
         return this;
 
-      if (RequestContentLength > 0 && !forceOverwrite)
+      if (ContentLength > 0 && !forceOverwrite)
         return this;
 
-      RequestContentLength = safeLength;
+      ContentLength = safeLength;
       return this;
     }
 
@@ -150,10 +147,10 @@ namespace Rn.NetCore.WebCommon.Models
       if (string.IsNullOrWhiteSpace(protocol))
         return this;
 
-      if (!string.IsNullOrEmpty(RequestProtocol) && !forceOverwrite)
+      if (!string.IsNullOrEmpty(Protocol) && !forceOverwrite)
         return this;
 
-      RequestProtocol = protocol.UpperTrim();
+      Protocol = protocol.UpperTrim();
       return this;
     }
 
@@ -163,10 +160,10 @@ namespace Rn.NetCore.WebCommon.Models
       if (string.IsNullOrWhiteSpace(scheme))
         return this;
 
-      if (!string.IsNullOrEmpty(RequestScheme) && !forceOverwrite)
+      if (!string.IsNullOrEmpty(Scheme) && !forceOverwrite)
         return this;
 
-      RequestScheme = scheme.UpperTrim();
+      Scheme = scheme.UpperTrim();
       return this;
     }
 
@@ -176,10 +173,10 @@ namespace Rn.NetCore.WebCommon.Models
       if (string.IsNullOrWhiteSpace(host.Host))
         return this;
 
-      if (!string.IsNullOrEmpty(RequestHost) && !forceOverwrite)
+      if (!string.IsNullOrEmpty(Host) && !forceOverwrite)
         return this;
 
-      RequestHost = host.Host.LowerTrim();
+      Host = host.Host.LowerTrim();
       return this;
     }
 
@@ -187,26 +184,26 @@ namespace Rn.NetCore.WebCommon.Models
     {
       // TODO: [TESTS] (ApiMetricRequestContext.SetRequestPort) Add tests
       var port = host.Port ?? 0;
-      if (port == 0 && RequestScheme.Length > 0)
-        port = RequestScheme == "HTTPS" ? 443 : 80;
+      if (port == 0 && Scheme.Length > 0)
+        port = Scheme == "HTTPS" ? 443 : 80;
 
       if (port == 0)
         return this;
 
-      if (RequestPort > 0 && !forceOverwrite)
+      if (Port > 0 && !forceOverwrite)
         return this;
 
-      RequestPort = port;
+      Port = port;
       return this;
     }
 
     public ApiMetricRequestContext SetRequestEndTime(DateTime utcNow, bool forceOverwrite = false)
     {
       // TODO: [TESTS] (ApiMetricRequestContext.SetRequestEndTime) Add tests
-      if (RequestEndTime.HasValue && !forceOverwrite)
+      if (EndTime.HasValue && !forceOverwrite)
         return this;
 
-      RequestEndTime = utcNow;
+      EndTime = utcNow;
       return this;
     }
 
@@ -254,10 +251,10 @@ namespace Rn.NetCore.WebCommon.Models
     public ApiMetricRequestContext SetRequestGuid(string requestGuid, bool forceOverwrite = false)
     {
       // TODO: [TESTS] (ApiMetricRequestContext.SetRequestGuid) Add tests
-      if (!string.IsNullOrWhiteSpace(RequestGuid) && !forceOverwrite)
+      if (!string.IsNullOrWhiteSpace(Guid) && !forceOverwrite)
         return this;
 
-      RequestGuid = requestGuid;
+      Guid = requestGuid;
       return this;
     }
 
@@ -414,7 +411,7 @@ namespace Rn.NetCore.WebCommon.Models
 
       SetActionStartTime(utcNow, forceOverwrite)
         .WithRouteData(context.RouteData, forceOverwrite)
-        .SetRequestGuid(Guid.NewGuid());
+        .SetRequestGuid(System.Guid.NewGuid());
     }
 
     public void WithActionExecutedContext(ActionExecutedContext context, DateTime utcNow, bool forceOverwrite = false)
@@ -494,12 +491,12 @@ namespace Rn.NetCore.WebCommon.Models
     private ApiMetricRequestContext SetRequestCookieCount(HttpRequest request, bool forceOverwrite = false)
     {
       // TODO: [TESTS] (ApiMetricRequestContext.SetRequestCookieCount) Add tests
-      if (RequestCookieCount > 0 && !forceOverwrite)
+      if (CookieCount > 0 && !forceOverwrite)
         return this;
 
       var cookiesCount = request?.Cookies?.Count ?? 0;
       if (cookiesCount > 0)
-        RequestCookieCount = cookiesCount;
+        CookieCount = cookiesCount;
 
       return this;
     }
@@ -507,12 +504,12 @@ namespace Rn.NetCore.WebCommon.Models
     private ApiMetricRequestContext SetRequestHeaderCount(HttpRequest request, bool forceOverwrite = false)
     {
       // TODO: [TESTS] (ApiMetricRequestContext.SetRequestHeaderCount) Add tests
-      if (RequestHeaderCount > 0 && !forceOverwrite)
+      if (HeaderCount > 0 && !forceOverwrite)
         return this;
 
       var headerCount = request?.Headers?.Count ?? 0;
       if (headerCount > 0)
-        RequestHeaderCount = headerCount;
+        HeaderCount = headerCount;
 
       return this;
     }

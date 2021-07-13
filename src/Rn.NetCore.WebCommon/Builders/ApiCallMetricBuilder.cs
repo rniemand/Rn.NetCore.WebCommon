@@ -133,16 +133,16 @@ namespace Rn.NetCore.WebCommon.Builders
     public ApiCallMetricBuilder WithExceptionTime(ApiMetricRequestContext context)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithExceptionTime) Add tests
-      if (context?.ExThrownTime == null || !context.RequestStartTime.HasValue)
+      if (context?.ExThrownTime == null || !context.StartTime.HasValue)
         return this;
 
-      if (context.RequestStartTime.Value > context.ExThrownTime.Value)
+      if (context.StartTime.Value > context.ExThrownTime.Value)
         return this;
 
       _builder.WithTag(CoreMetricTag.HasException, true)
         .WithField(
           Fields.ExceptionTime,
-          (context.ExThrownTime.Value - context.RequestStartTime.Value).TotalMilliseconds
+          (context.ExThrownTime.Value - context.StartTime.Value).TotalMilliseconds
         );
 
       return this;
@@ -151,15 +151,15 @@ namespace Rn.NetCore.WebCommon.Builders
     public ApiCallMetricBuilder WithRequestRunTime(ApiMetricRequestContext context)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithRequestRunTime) Add tests
-      if (context?.RequestStartTime == null || !context.RequestEndTime.HasValue)
+      if (context?.StartTime == null || !context.EndTime.HasValue)
         return this;
 
-      if (context.RequestStartTime > context.RequestEndTime)
+      if (context.StartTime > context.EndTime)
         return this;
 
       _builder.WithField(
         CoreMetricField.Value,
-        (context.RequestEndTime.Value - context.RequestStartTime.Value).TotalMilliseconds
+        (context.EndTime.Value - context.StartTime.Value).TotalMilliseconds
       );
 
       return this;
@@ -265,10 +265,10 @@ namespace Rn.NetCore.WebCommon.Builders
         return this;
 
       _builder
-        .WithField(Fields.RequestContentLength, context.RequestContentLength)
-        .WithField(Fields.RequestCookieCount, context.RequestCookieCount)
-        .WithField(Fields.RequestHeaderCount, context.RequestHeaderCount)
-        .WithField(Fields.RequestPort, context.RequestPort)
+        .WithField(Fields.RequestContentLength, context.ContentLength)
+        .WithField(Fields.RequestCookieCount, context.CookieCount)
+        .WithField(Fields.RequestHeaderCount, context.HeaderCount)
+        .WithField(Fields.RequestPort, context.Port)
         .WithField(Fields.ResponseContentLength, context.ResponseContentLength)
         .WithField(Fields.ResponseHeaderCount, context.ResponseHeaderCount);
 
@@ -280,13 +280,13 @@ namespace Rn.NetCore.WebCommon.Builders
         .WithController(context.Controller)
         .WithAction(context.Action)
         .WithExceptionName(context.ExceptionName)
-        .WithRequestMethod(context.RequestMethod)
-        .WithRequestContentType(context.RequestContentType)
-        .WithRequestProtocol(context.RequestProtocol)
-        .WithRequestScheme(context.RequestScheme)
-        .WithRequestHost(context.RequestHost)
+        .WithRequestMethod(context.Method)
+        .WithRequestContentType(context.ContentType)
+        .WithRequestProtocol(context.Protocol)
+        .WithRequestScheme(context.Scheme)
+        .WithRequestHost(context.Host)
         .WithResponseCode(context.ResponseCode)
-        .WithResponseContentType(context.RequestContentType);
+        .WithResponseContentType(context.ContentType);
     }
 
 
