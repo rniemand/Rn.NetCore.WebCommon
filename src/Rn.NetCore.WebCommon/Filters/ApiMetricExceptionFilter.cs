@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Rn.NetCore.Common.Abstractions;
-using Rn.NetCore.Common.Metrics;
+using Rn.NetCore.Common.Metrics.Interfaces;
 using Rn.NetCore.WebCommon.Extensions;
 using Rn.NetCore.WebCommon.Metrics;
 
@@ -28,8 +28,8 @@ namespace Rn.NetCore.WebCommon.Filters
 
       metricContext.WithExceptionContext(context, _dateTime.UtcNow);
 
-      _metrics.SubmitPoint(
-        new ApiCallMetricBuilder(metricContext).Build()
+      _metrics.SubmitMetric(
+        new ApiCallMetricBuilder(metricContext)
       );
     }
   }
