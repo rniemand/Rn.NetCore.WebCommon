@@ -10,7 +10,9 @@ using Rn.NetCore.Common.Logging;
 using Rn.NetCore.Common.Metrics;
 using Rn.NetCore.Common.Metrics.Interfaces;
 using Rn.NetCore.Common.Metrics.Outputs;
+using Rn.NetCore.Common.Wrappers;
 using Rn.NetCore.Metrics.Rabbit;
+using Rn.NetCore.Metrics.Rabbit.Interfaces;
 using Rn.NetCore.WebCommon.Filters;
 using Rn.NetCore.WebCommon.Middleware;
 
@@ -76,7 +78,7 @@ namespace DevWebApi
         .AddSingleton<IDirectoryAbstraction, DirectoryAbstraction>()
         .AddSingleton<IFileAbstraction, FileAbstraction>()
         .AddSingleton<IEnvironmentAbstraction, EnvironmentAbstraction>()
-        .AddSingleton<IPathAbstraction, PathAbstraction>()
+        .AddSingleton<IPath, PathWrapper>()
         // Helpers
         .AddSingleton<IJsonHelper, JsonHelper>()
         // Metrics
