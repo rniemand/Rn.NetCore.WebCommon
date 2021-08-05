@@ -1,12 +1,11 @@
 ﻿using Rn.NetCore.Common.Metrics;
 using Rn.NetCore.Common.Metrics.Enums;
-using Rn.NetCore.Common.Metrics.Interfaces;
 using Rn.NetCore.Common.Metrics.Models;
 using Rn.NetCore.WebCommon.Models;
 
-namespace Rn.NetCore.WebCommon.Builders
+namespace Rn.NetCore.WebCommon.Metrics
 {
-  public class ApiCallMetricBuilder : MetricBuilderBase, IMetricBuilder
+  public class ApiCallMetricBuilder : MetricBuilderBase, IApiCallMetricBuilder
   {
     public bool IsNullMetricBuilder { get; }
 
@@ -52,7 +51,7 @@ namespace Rn.NetCore.WebCommon.Builders
 
 
     // Builder Methods
-    public ApiCallMetricBuilder WithActionTime(ApiMetricRequestContext context)
+    public IApiCallMetricBuilder WithActionTime(ApiMetricRequestContext context)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithActionTime) Add tests
       if (context?.ActionStartTime == null || !context.ActionEndTime.HasValue)
@@ -69,7 +68,7 @@ namespace Rn.NetCore.WebCommon.Builders
       return this;
     }
 
-    public ApiCallMetricBuilder WithResultTime(ApiMetricRequestContext context)
+    public IApiCallMetricBuilder WithResultTime(ApiMetricRequestContext context)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithResultTime) Add tests
       if (context?.ResultsStartTime == null || !context.ResultsEndTime.HasValue)
@@ -86,7 +85,7 @@ namespace Rn.NetCore.WebCommon.Builders
       return this;
     }
 
-    public ApiCallMetricBuilder WithMiddlewareTime(ApiMetricRequestContext context)
+    public IApiCallMetricBuilder WithMiddlewareTime(ApiMetricRequestContext context)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithMiddlewareTime) Add tests
       if (context?.MiddlewareStartTime == null || !context.MiddlewareEndTime.HasValue)
@@ -102,7 +101,7 @@ namespace Rn.NetCore.WebCommon.Builders
       return this;
     }
 
-    public ApiCallMetricBuilder WithExceptionTime(ApiMetricRequestContext context)
+    public IApiCallMetricBuilder WithExceptionTime(ApiMetricRequestContext context)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithExceptionTime) Add tests
       if (context?.ExThrownTime == null || !context.StartTime.HasValue)
@@ -119,7 +118,7 @@ namespace Rn.NetCore.WebCommon.Builders
       return this;
     }
 
-    public ApiCallMetricBuilder WithRequestRunTime(ApiMetricRequestContext context)
+    public IApiCallMetricBuilder WithRequestRunTime(ApiMetricRequestContext context)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithRequestRunTime) Add tests
       if (context?.StartTime == null || !context.EndTime.HasValue)
@@ -135,7 +134,7 @@ namespace Rn.NetCore.WebCommon.Builders
       return this;
     }
 
-    public ApiCallMetricBuilder WithController(string controller)
+    public IApiCallMetricBuilder WithController(string controller)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithController) Add tests
       if (!string.IsNullOrWhiteSpace(controller))
@@ -144,7 +143,7 @@ namespace Rn.NetCore.WebCommon.Builders
       return this;
     }
 
-    public ApiCallMetricBuilder WithAction(string action)
+    public IApiCallMetricBuilder WithAction(string action)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithAction) Add tests
       if (!string.IsNullOrWhiteSpace(action))
@@ -153,7 +152,7 @@ namespace Rn.NetCore.WebCommon.Builders
       return this;
     }
 
-    public ApiCallMetricBuilder WithExceptionName(string exceptionName)
+    public IApiCallMetricBuilder WithExceptionName(string exceptionName)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithExceptionName) Add tests
       if (string.IsNullOrWhiteSpace(exceptionName))
@@ -164,7 +163,7 @@ namespace Rn.NetCore.WebCommon.Builders
       return this;
     }
 
-    public ApiCallMetricBuilder WithRequestMethod(string method)
+    public IApiCallMetricBuilder WithRequestMethod(string method)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithRequestMethod) Add tests
       if (!string.IsNullOrWhiteSpace(method))
@@ -173,7 +172,7 @@ namespace Rn.NetCore.WebCommon.Builders
       return this;
     }
 
-    public ApiCallMetricBuilder WithRequestContentType(string contentType)
+    public IApiCallMetricBuilder WithRequestContentType(string contentType)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithRequestContentType) Add tests
       if (!string.IsNullOrWhiteSpace(contentType))
@@ -182,7 +181,7 @@ namespace Rn.NetCore.WebCommon.Builders
       return this;
     }
 
-    public ApiCallMetricBuilder WithRequestProtocol(string protocol)
+    public IApiCallMetricBuilder WithRequestProtocol(string protocol)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithRequestProtocol) Add tests
       if (!string.IsNullOrWhiteSpace(protocol))
@@ -191,7 +190,7 @@ namespace Rn.NetCore.WebCommon.Builders
       return this;
     }
 
-    public ApiCallMetricBuilder WithRequestScheme(string scheme)
+    public IApiCallMetricBuilder WithRequestScheme(string scheme)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithRequestScheme) Add tests
       if (!string.IsNullOrWhiteSpace(scheme))
@@ -200,7 +199,7 @@ namespace Rn.NetCore.WebCommon.Builders
       return this;
     }
 
-    public ApiCallMetricBuilder WithRequestHost(string host)
+    public IApiCallMetricBuilder WithRequestHost(string host)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithRequestHost) Add tests
       if (!string.IsNullOrWhiteSpace(host))
@@ -209,14 +208,14 @@ namespace Rn.NetCore.WebCommon.Builders
       return this;
     }
 
-    public ApiCallMetricBuilder WithResponseCode(int responseCode)
+    public IApiCallMetricBuilder WithResponseCode(int responseCode)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithResponseCode) Add tests
       SetTag(Tags.ResponseCode, responseCode);
       return this;
     }
 
-    public ApiCallMetricBuilder WithResponseContentType(string contentType)
+    public IApiCallMetricBuilder WithResponseContentType(string contentType)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithResponseContentType) Add tests
       if (!string.IsNullOrWhiteSpace(contentType))
@@ -225,7 +224,7 @@ namespace Rn.NetCore.WebCommon.Builders
       return this;
     }
 
-    public ApiCallMetricBuilder WithApiMetricRequestContext(ApiMetricRequestContext context)
+    public IApiCallMetricBuilder WithApiMetricRequestContext(ApiMetricRequestContext context)
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.WithApiMetricRequestContext) Add tests
       if (context == null)

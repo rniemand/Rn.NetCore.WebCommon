@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Rn.NetCore.Common.Abstractions;
 using Rn.NetCore.Common.Logging;
 using Rn.NetCore.Common.Metrics;
-using Rn.NetCore.WebCommon.Builders;
 using Rn.NetCore.WebCommon.Extensions;
+using Rn.NetCore.WebCommon.Metrics;
 
 namespace Rn.NetCore.WebCommon.Middleware
 {
