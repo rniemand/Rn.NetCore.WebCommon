@@ -257,10 +257,10 @@ namespace Rn.NetCore.WebCommon.Metrics
 
 
     // Build()
-    public RawMetric GetRawMetric()
+    public CoreMetric GetRawMetric()
     {
       // TODO: [TESTS] (ApiCallMetricBuilder.GetRawMetric) Add tests
-      return RawMetric;
+      return CoreMetric;
     }
 
 
