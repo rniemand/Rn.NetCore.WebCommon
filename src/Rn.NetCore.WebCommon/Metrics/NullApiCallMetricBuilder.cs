@@ -30,6 +30,6 @@ namespace Rn.NetCore.WebCommon.Metrics
     public IApiCallMetricBuilder WithResponseContentType(string contentType) => this;
     public IApiCallMetricBuilder WithApiMetricRequestContext(ApiMetricRequestContext context) => this;
 
-    public CoreMetric GetRawMetric() => null;
+    public CoreMetric GetMetric() => null;
   }
 }
