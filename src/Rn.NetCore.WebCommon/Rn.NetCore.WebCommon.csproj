@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>5.0.1.103</Version>
+    <Version>5.0.1.104</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Richard Niemand</Authors>
     <Description>Core libs for my various projects</Description>
@@ -12,7 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Rn.NetCore.Common" Version="5.0.1.129" />
+    <PackageReference Include="Rn.NetCore.Common" Version="5.0.1.136" />
   </ItemGroup>
 
 </Project>

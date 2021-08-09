@@ -28,7 +28,7 @@ namespace Rn.NetCore.WebCommon.Filters
 
       metricContext.WithExceptionContext(context, _dateTime.UtcNow);
 
-      _metrics.SubmitMetric(
+      _metrics.SubmitBuilderAsync(
         new ApiCallMetricBuilder(metricContext)
       );
     }
