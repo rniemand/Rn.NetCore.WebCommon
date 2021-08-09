@@ -11,7 +11,6 @@ using Rn.NetCore.Common.Logging;
 using Rn.NetCore.Common.Metrics;
 using Rn.NetCore.Common.Metrics.Interfaces;
 using Rn.NetCore.Common.Metrics.Outputs;
-using Rn.NetCore.Common.Wrappers;
 
 namespace DevConsole
 {
@@ -24,7 +23,7 @@ namespace DevConsole
     {
       ConfigureDI();
 
-      var path = _serviceProvider.GetRequiredService<IPath>();
+      var path = _serviceProvider.GetRequiredService<IPathAbstraction>();
 
       var tempFileName = path.GetTempFileName();
 
@@ -41,8 +40,7 @@ namespace DevConsole
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
         .Build();
-
-      ConfigureDI_Configuration(services, config);
+      
       ConfigureDI_Core(services, config);
       ConfigureDI_Metrics(services);
 
@@ -62,7 +60,7 @@ namespace DevConsole
         .AddSingleton<IEnvironmentAbstraction, EnvironmentAbstraction>()
         .AddSingleton<IDirectoryAbstraction, DirectoryAbstraction>()
         .AddSingleton<IFileAbstraction, FileAbstraction>()
-        .AddSingleton<IPath, PathWrapper>()
+        .AddSingleton<IPathAbstraction, PathAbstraction>()
         .AddLogging(loggingBuilder =>
         {
           // configure Logging with NLog
@@ -70,11 +68,6 @@ namespace DevConsole
           loggingBuilder.SetMinimumLevel(LogLevel.Trace);
           loggingBuilder.AddNLog(config);
         });
-    }
-
-    private static void ConfigureDI_Configuration(IServiceCollection services, IConfiguration config)
-    {
-      // Complete
     }
 
     private static void ConfigureDI_Metrics(IServiceCollection services)
