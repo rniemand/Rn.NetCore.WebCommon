@@ -257,9 +257,9 @@ namespace Rn.NetCore.WebCommon.Metrics
 
 
     // Build()
-    public CoreMetric GetRawMetric()
+    public CoreMetric GetMetric()
     {
-      // TODO: [TESTS] (ApiCallMetricBuilder.GetRawMetric) Add tests
+      // TODO: [TESTS] (ApiCallMetricBuilder.GetMetric) Add tests
       return CoreMetric;
     }
 
