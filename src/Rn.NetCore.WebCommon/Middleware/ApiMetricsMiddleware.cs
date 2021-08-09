@@ -65,7 +65,7 @@ namespace Rn.NetCore.WebCommon.Middleware
         if (metricContext == null) return;
         metricContext.CompleteMiddlewareRequest(httpContext, _dateTime.UtcNow);
 
-        await _metrics.SubmitMetricAsync(
+        await _metrics.SubmitBuilderAsync(
           new ApiCallMetricBuilder(metricContext)
         );
       }
