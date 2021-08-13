@@ -9,8 +9,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.9" NoWarn="NU1605" />
     <PackageReference Include="NLog" Version="4.7.10" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.13.0" />
-    <PackageReference Include="Rn.NetCore.Common" Version="5.0.1.142" />
-    <PackageReference Include="Rn.NetCore.Metrics.Rabbit" Version="5.0.1.111" />
+    <PackageReference Include="Rn.NetCore.Common" Version="5.0.1.144" />
+    <PackageReference Include="Rn.NetCore.Metrics.Rabbit" Version="5.0.1.112" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
   </ItemGroup>
 
