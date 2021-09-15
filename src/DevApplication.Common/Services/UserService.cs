@@ -16,9 +16,9 @@ namespace DevApplication.Common.Services
       return null;
     }
 
-    public async Task<AuthenticationResponse> Authenticate(AuthenticationRequest request)
+    public async Task<UserDto> Login(AuthenticationRequest request)
     {
-      // TODO: [TESTS] (UserService.Authenticate) Add tests
+      // TODO: [TESTS] (UserService.Login) Add tests
       await Task.CompletedTask;
       return null;
     }
