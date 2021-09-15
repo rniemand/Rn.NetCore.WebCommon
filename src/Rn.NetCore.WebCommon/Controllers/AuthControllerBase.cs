@@ -14,7 +14,7 @@ namespace Rn.NetCore.WebCommon.Controllers
   {
     public ILoggerAdapter<TController> Logger { get; set; }
     public IUserServiceBase UserService { get; set; }
-    private readonly IJwtTokenHelper _jwtTokenHelper;
+    private readonly IJwtTokenHelper _tokenHelper;
 
     // Constructor
     public AuthControllerBase(IServiceProvider serviceProvider)
@@ -22,7 +22,7 @@ namespace Rn.NetCore.WebCommon.Controllers
       // TODO: [TESTS] (AuthControllerBase) Add tests
       Logger = serviceProvider.GetRequiredService<ILoggerAdapter<TController>>();
       UserService = serviceProvider.GetRequiredService<IUserServiceBase>();
-      _jwtTokenHelper = serviceProvider.GetRequiredService<IJwtTokenHelper>();
+      _tokenHelper = serviceProvider.GetRequiredService<IJwtTokenHelper>();
     }
 
 
@@ -41,7 +41,7 @@ namespace Rn.NetCore.WebCommon.Controllers
       }
 
       // Login was a success
-      var token = _jwtTokenHelper.GenerateToken(user.UserId);
+      var token = _tokenHelper.GenerateToken(user.UserId);
       return Ok(response.WithUser(token, user));
     }
   }
