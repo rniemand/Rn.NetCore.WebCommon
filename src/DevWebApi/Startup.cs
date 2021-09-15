@@ -29,6 +29,8 @@ namespace DevWebApi
 
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddSwaggerDocument();
+
       services
         // Abstractions
         .AddSingleton<IDateTimeAbstraction, DateTimeAbstraction>()
@@ -78,7 +80,10 @@ namespace DevWebApi
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
-        app.UseSwagger();
+        app.UseOpenApi(settings =>
+        {
+          settings.Path = "/swagger/v1/swagger.json";
+        });
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevWebApi v1"));
       }
 
