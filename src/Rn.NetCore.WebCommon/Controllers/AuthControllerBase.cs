@@ -24,7 +24,7 @@ namespace Rn.NetCore.WebCommon.Controllers
 
     // Required methods
     [HttpPost, Route("authenticate")]
-    protected async Task<ActionResult<AuthenticationResponse>> Authenticate([FromBody] AuthenticationRequest request)
+    public virtual async Task<ActionResult<AuthenticationResponse>> Authenticate([FromBody] AuthenticationRequest request)
     {
       // TODO: [TESTS] (AuthControllerBase.Authenticate) Add tests
       var user = await UserService.LoginAsync(request);
