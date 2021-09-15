@@ -31,7 +31,7 @@ namespace Rn.NetCore.WebCommon.Controllers
     public async Task<ActionResult<AuthenticationResponse>> Authenticate([FromBody] AuthenticationRequest request)
     {
       // TODO: [TESTS] (AuthControllerBase.Authenticate) Add tests
-      var user = await UserService.Login(request);
+      var user = await UserService.LoginAsync(request);
       var response = new AuthenticationResponse();
 
       if (user == null)

@@ -6,7 +6,7 @@ namespace Rn.NetCore.WebCommon.Services
 {
   public interface IUserServiceBase
   {
-    Task<UserDto> GetFromToken(string token);
-    Task<UserDto> Login(AuthenticationRequest request);
+    Task<UserDto> GetFromIdAsync(int userId);
+    Task<UserDto> LoginAsync(AuthenticationRequest request);
   }
 }

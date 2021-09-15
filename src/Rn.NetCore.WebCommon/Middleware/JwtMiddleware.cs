@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Rn.NetCore.WebCommon.Helpers;
 using Rn.NetCore.WebCommon.Services;
 
 namespace Rn.NetCore.WebCommon.Middleware
@@ -14,21 +15,31 @@ namespace Rn.NetCore.WebCommon.Middleware
       _next = next;
     }
 
-    public async Task Invoke(HttpContext context, IUserServiceBase userService)
+    public async Task Invoke(HttpContext context,
+      IUserServiceBase userService,
+      IJwtTokenHelper tokenHelper)
     {
       var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
       if (token != null)
-        await AttachUserToContext(context, userService, token);
+        await AttachUserToContext(context, token, userService, tokenHelper);
 
       await _next(context);
     }
 
-    private static async Task AttachUserToContext(HttpContext context, IUserServiceBase userService, string token)
+    private static async Task AttachUserToContext(HttpContext context,
+      string token,
+      IUserServiceBase userService,
+      IJwtTokenHelper tokenHelper)
     {
       try
       {
-        context.Items["User"] = await userService.GetFromToken(token);
+        var userId = tokenHelper.ExtractUserId(token);
+        
+        if (userId == 0)
+          return;
+
+        context.Items["User"] = await userService.GetFromIdAsync(userId);
       }
       catch
       {
