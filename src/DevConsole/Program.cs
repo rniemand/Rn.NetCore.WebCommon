@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using DevApplication.Common.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,7 @@ using Rn.NetCore.Common.Metrics;
 using Rn.NetCore.Common.Metrics.Interfaces;
 using Rn.NetCore.Common.Metrics.Outputs;
 using Rn.NetCore.Common.Services;
+using Rn.NetCore.WebCommon.Services;
 
 namespace DevConsole
 {
@@ -73,6 +75,10 @@ namespace DevConsole
           loggingBuilder.SetMinimumLevel(LogLevel.Trace);
           loggingBuilder.AddNLog(config);
         });
+
+      // Consumer specific implementations
+      services
+        .AddSingleton<IUserServiceBase, UserService>();
 
       _serviceProvider = services.BuildServiceProvider();
       _logger = _serviceProvider.GetService<ILoggerAdapter<Program>>();

@@ -1,3 +1,4 @@
+using DevApplication.Common.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,7 @@ using Rn.NetCore.Common.Metrics;
 using Rn.NetCore.Common.Metrics.Interfaces;
 using Rn.NetCore.WebCommon.Filters;
 using Rn.NetCore.WebCommon.Middleware;
+using Rn.NetCore.WebCommon.Services;
 
 namespace DevWebApi
 {
@@ -42,6 +44,10 @@ namespace DevWebApi
 
         // Logging
         .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
+
+      // Consumer specific implementations
+      services
+        .AddSingleton<IUserServiceBase, UserService>();
 
       services.AddControllers(options =>
       {
