@@ -92,8 +92,12 @@ namespace DevWebApi
       app.UseRouting();
       app.UseMiddleware<ApiMetricsMiddleware>();
       app.UseMiddleware<JwtMiddleware>();
-
       app.UseAuthorization();
+      app.UseCors(builder =>
+      {
+        builder.AllowAnyHeader();
+        builder.AllowAnyOrigin();
+      });
 
       app.UseEndpoints(endpoints =>
       {
