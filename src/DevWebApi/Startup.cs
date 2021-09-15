@@ -1,3 +1,4 @@
+using DevApplication.Common.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,27 +10,51 @@ using Rn.NetCore.Common.Helpers;
 using Rn.NetCore.Common.Logging;
 using Rn.NetCore.Common.Metrics;
 using Rn.NetCore.Common.Metrics.Interfaces;
-using Rn.NetCore.Common.Metrics.Outputs;
-using Rn.NetCore.Metrics.Rabbit;
-using Rn.NetCore.Metrics.Rabbit.Interfaces;
 using Rn.NetCore.WebCommon.Filters;
+using Rn.NetCore.WebCommon.Helpers;
 using Rn.NetCore.WebCommon.Middleware;
+using Rn.NetCore.WebCommon.Providers;
+using Rn.NetCore.WebCommon.Services;
 
 namespace DevWebApi
 {
   public class Startup
   {
+    public IConfiguration Configuration { get; }
+
     public Startup(IConfiguration configuration)
     {
       Configuration = configuration;
     }
 
-    public IConfiguration Configuration { get; }
-
-
     public void ConfigureServices(IServiceCollection services)
     {
-      ConfigureServices_RnNetCore_Common(services);
+      services
+        // Abstractions
+        .AddSingleton<IDateTimeAbstraction, DateTimeAbstraction>()
+        .AddSingleton<IDirectoryAbstraction, DirectoryAbstraction>()
+        .AddSingleton<IFileAbstraction, FileAbstraction>()
+        .AddSingleton<IEnvironmentAbstraction, EnvironmentAbstraction>()
+        .AddSingleton<IPathAbstraction, PathAbstraction>()
+
+        // Helpers
+        .AddSingleton<IEncryptionHelper, EncryptionHelper>()
+        .AddSingleton<IJsonHelper, JsonHelper>()
+        .AddSingleton<IJwtTokenHelper, JwtTokenHelper>()
+
+        // Providers
+        .AddSingleton<IRnWebCoreConfigProvider, RnWebCoreConfigProvider>()
+
+        // Metrics
+        .AddSingleton<IMetricServiceUtils, MetricServiceUtils>()
+        .AddSingleton<IMetricService, MetricService>()
+
+        // Logging
+        .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
+
+      // Consumer specific implementations
+      services
+        .AddSingleton<IUserServiceBase, UserService>();
 
       services.AddControllers(options =>
       {
@@ -39,9 +64,12 @@ namespace DevWebApi
         options.Filters.Add<ApiMetricResourceFilter>();
       });
 
-      services.AddSwaggerGen(c =>
-      {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "DevWebApi", Version = "v1" });
+      services.AddSwaggerGen(c => { c
+        .SwaggerDoc("v1", new OpenApiInfo
+        {
+          Title = "DevWebApi",
+          Version = "v1"
+        });
       });
     }
 
@@ -58,6 +86,7 @@ namespace DevWebApi
 
       app.UseRouting();
       app.UseMiddleware<ApiMetricsMiddleware>();
+      app.UseMiddleware<JwtMiddleware>();
 
       app.UseAuthorization();
 
@@ -65,29 +94,6 @@ namespace DevWebApi
       {
         endpoints.MapControllers();
       });
-    }
-
-
-    // ConfigureServices methods
-    private static void ConfigureServices_RnNetCore_Common(IServiceCollection services)
-    {
-      services
-        // Abstractions
-        .AddSingleton<IDateTimeAbstraction, DateTimeAbstraction>()
-        .AddSingleton<IDirectoryAbstraction, DirectoryAbstraction>()
-        .AddSingleton<IFileAbstraction, FileAbstraction>()
-        .AddSingleton<IEnvironmentAbstraction, EnvironmentAbstraction>()
-        .AddSingleton<IPathAbstraction, PathAbstraction>()
-        // Helpers
-        .AddSingleton<IJsonHelper, JsonHelper>()
-        // Metrics
-        .AddSingleton<IMetricService, MetricService>()
-        .AddSingleton<IMetricOutput, CsvMetricOutput>()
-        .AddSingleton<IMetricOutput, RabbitMetricOutput>()
-        .AddSingleton<IRabbitConnection, RabbitConnection>()
-        .AddSingleton<IRabbitFactory, RabbitFactory>()
-        // Logging
-        .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
     }
   }
 }

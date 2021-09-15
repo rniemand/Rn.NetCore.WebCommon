@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using DevApplication.Common.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,9 @@ using Rn.NetCore.Common.Metrics;
 using Rn.NetCore.Common.Metrics.Interfaces;
 using Rn.NetCore.Common.Metrics.Outputs;
 using Rn.NetCore.Common.Services;
+using Rn.NetCore.WebCommon.Helpers;
+using Rn.NetCore.WebCommon.Providers;
+using Rn.NetCore.WebCommon.Services;
 
 namespace DevConsole
 {
@@ -40,27 +44,36 @@ namespace DevConsole
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
         .Build();
-      
-      ConfigureDI_Core(services, config);
-      ConfigureDI_Metrics(services);
 
-      _serviceProvider = services.BuildServiceProvider();
-      _logger = _serviceProvider.GetService<ILoggerAdapter<Program>>();
-    }
-
-    private static void ConfigureDI_Core(IServiceCollection services, IConfiguration config)
-    {
       services
+        // Configuration
         .AddSingleton(config)
-        .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>))
+
+        // Services
         .AddSingleton<IEncryptionService, EncryptionService>()
+
+        // Helpers
         .AddSingleton<IEncryptionHelper, EncryptionHelper>()
-        .AddSingleton<IDateTimeAbstraction, DateTimeAbstraction>()
         .AddSingleton<IJsonHelper, JsonHelper>()
+        .AddSingleton<IJwtTokenHelper, JwtTokenHelper>()
+
+        // Abstractions
+        .AddSingleton<IDateTimeAbstraction, DateTimeAbstraction>()
         .AddSingleton<IEnvironmentAbstraction, EnvironmentAbstraction>()
         .AddSingleton<IDirectoryAbstraction, DirectoryAbstraction>()
         .AddSingleton<IFileAbstraction, FileAbstraction>()
         .AddSingleton<IPathAbstraction, PathAbstraction>()
+
+        // Providers
+        .AddSingleton<IRnWebCoreConfigProvider, RnWebCoreConfigProvider>()
+
+        // Metrics
+        .AddSingleton<IMetricServiceUtils, MetricServiceUtils>()
+        .AddSingleton<IMetricService, MetricService>()
+        .AddSingleton<IMetricOutput, CsvMetricOutput>()
+
+        // Logging
+        .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>))
         .AddLogging(loggingBuilder =>
         {
           // configure Logging with NLog
@@ -68,13 +81,13 @@ namespace DevConsole
           loggingBuilder.SetMinimumLevel(LogLevel.Trace);
           loggingBuilder.AddNLog(config);
         });
-    }
 
-    private static void ConfigureDI_Metrics(IServiceCollection services)
-    {
+      // Consumer specific implementations
       services
-        .AddSingleton<IMetricService, MetricService>()
-        .AddSingleton<IMetricOutput, CsvMetricOutput>();
+        .AddSingleton<IUserServiceBase, UserService>();
+
+      _serviceProvider = services.BuildServiceProvider();
+      _logger = _serviceProvider.GetService<ILoggerAdapter<Program>>();
     }
   }
 }
