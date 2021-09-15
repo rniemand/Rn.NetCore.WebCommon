@@ -40,27 +40,32 @@ namespace DevConsole
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
         .Build();
-      
-      ConfigureDI_Core(services, config);
-      ConfigureDI_Metrics(services);
 
-      _serviceProvider = services.BuildServiceProvider();
-      _logger = _serviceProvider.GetService<ILoggerAdapter<Program>>();
-    }
-
-    private static void ConfigureDI_Core(IServiceCollection services, IConfiguration config)
-    {
       services
+        // Configuration
         .AddSingleton(config)
-        .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>))
+
+        // Services
         .AddSingleton<IEncryptionService, EncryptionService>()
+
+        // Helpers
         .AddSingleton<IEncryptionHelper, EncryptionHelper>()
-        .AddSingleton<IDateTimeAbstraction, DateTimeAbstraction>()
         .AddSingleton<IJsonHelper, JsonHelper>()
+
+        // Abstractions
+        .AddSingleton<IDateTimeAbstraction, DateTimeAbstraction>()
         .AddSingleton<IEnvironmentAbstraction, EnvironmentAbstraction>()
         .AddSingleton<IDirectoryAbstraction, DirectoryAbstraction>()
         .AddSingleton<IFileAbstraction, FileAbstraction>()
         .AddSingleton<IPathAbstraction, PathAbstraction>()
+
+        // Metrics
+        .AddSingleton<IMetricServiceUtils, MetricServiceUtils>()
+        .AddSingleton<IMetricService, MetricService>()
+        .AddSingleton<IMetricOutput, CsvMetricOutput>()
+
+        // Logging
+        .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>))
         .AddLogging(loggingBuilder =>
         {
           // configure Logging with NLog
@@ -68,13 +73,9 @@ namespace DevConsole
           loggingBuilder.SetMinimumLevel(LogLevel.Trace);
           loggingBuilder.AddNLog(config);
         });
-    }
 
-    private static void ConfigureDI_Metrics(IServiceCollection services)
-    {
-      services
-        .AddSingleton<IMetricService, MetricService>()
-        .AddSingleton<IMetricOutput, CsvMetricOutput>();
+      _serviceProvider = services.BuildServiceProvider();
+      _logger = _serviceProvider.GetService<ILoggerAdapter<Program>>();
     }
   }
 }

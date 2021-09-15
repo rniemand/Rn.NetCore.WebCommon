@@ -78,14 +78,14 @@ namespace DevWebApi
         .AddSingleton<IFileAbstraction, FileAbstraction>()
         .AddSingleton<IEnvironmentAbstraction, EnvironmentAbstraction>()
         .AddSingleton<IPathAbstraction, PathAbstraction>()
+        
         // Helpers
         .AddSingleton<IJsonHelper, JsonHelper>()
+        
         // Metrics
+        .AddSingleton<IMetricServiceUtils, MetricServiceUtils>()
         .AddSingleton<IMetricService, MetricService>()
-        .AddSingleton<IMetricOutput, CsvMetricOutput>()
-        .AddSingleton<IMetricOutput, RabbitMetricOutput>()
-        .AddSingleton<IRabbitConnection, RabbitConnection>()
-        .AddSingleton<IRabbitFactory, RabbitFactory>()
+        
         // Logging
         .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
     }
