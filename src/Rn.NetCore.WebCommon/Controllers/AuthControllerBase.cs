@@ -31,19 +31,18 @@ namespace Rn.NetCore.WebCommon.Controllers
     public async Task<ActionResult<AuthenticationResponse>> Authenticate([FromBody] AuthenticationRequest request)
     {
       // TODO: [TESTS] (AuthControllerBase.Authenticate) Add tests
-      var loggedInUser = await UserService.Login(request);
+      var user = await UserService.Login(request);
+      var response = new AuthenticationResponse();
 
-      if (loggedInUser == null)
+      if (user == null)
       {
         // TODO: [LOGGING] (AuthControllerBase.Authenticate) Add logging
-        return null;
+        return response.WithError("Login failed");
       }
 
-      return Ok(new AuthenticationResponse
-      {
-        Token = _jwtTokenHelper.GenerateToken(loggedInUser.UserId),
-        User = loggedInUser
-      });
+      // Login was a success
+      var token = _jwtTokenHelper.GenerateToken(user.UserId);
+      return Ok(response.WithUser(token, user));
     }
   }
 }
