@@ -8,5 +8,6 @@ namespace Rn.NetCore.WebCommon.Services
   {
     Task<UserDto> GetFromIdAsync(int userId);
     Task<UserDto> LoginAsync(AuthenticationRequest request);
+    Task UserSessionExtended(UserDto userDto);
   }
 }

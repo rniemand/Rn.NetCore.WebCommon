@@ -2,33 +2,29 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Rn.NetCore.Common.Logging;
 using Rn.NetCore.WebCommon.Helpers;
 using Rn.NetCore.WebCommon.Models.Requests;
 using Rn.NetCore.WebCommon.Models.Responses;
-using Rn.NetCore.WebCommon.Services;
 
 namespace Rn.NetCore.WebCommon.Controllers
 {
-  public class AuthControllerBase<TController> : ControllerBase
+  public abstract class AuthControllerBase<TController> : RnBaseController<TController>
   {
-    public ILoggerAdapter<TController> Logger { get; set; }
-    public IUserServiceBase UserService { get; set; }
-    private readonly IJwtTokenHelper _tokenHelper;
+    public IJwtTokenHelper TokenHelper { get; set; }
+
 
     // Constructor
-    public AuthControllerBase(IServiceProvider serviceProvider)
+    protected AuthControllerBase(IServiceProvider serviceProvider)
+      : base(serviceProvider)
     {
       // TODO: [TESTS] (AuthControllerBase) Add tests
-      Logger = serviceProvider.GetRequiredService<ILoggerAdapter<TController>>();
-      UserService = serviceProvider.GetRequiredService<IUserServiceBase>();
-      _tokenHelper = serviceProvider.GetRequiredService<IJwtTokenHelper>();
+      TokenHelper = serviceProvider.GetRequiredService<IJwtTokenHelper>();
     }
 
 
     // Required methods
     [HttpPost, Route("authenticate")]
-    public async Task<ActionResult<AuthenticationResponse>> Authenticate([FromBody] AuthenticationRequest request)
+    protected async Task<ActionResult<AuthenticationResponse>> Authenticate([FromBody] AuthenticationRequest request)
     {
       // TODO: [TESTS] (AuthControllerBase.Authenticate) Add tests
       var user = await UserService.LoginAsync(request);
@@ -41,7 +37,7 @@ namespace Rn.NetCore.WebCommon.Controllers
       }
 
       // Login was a success
-      var token = _tokenHelper.GenerateToken(user.UserId);
+      var token = TokenHelper.GenerateToken(user.UserId);
       return Ok(response.WithUser(token, user));
     }
   }

@@ -9,7 +9,7 @@ namespace DevApplication.Common.Services
 {
   public class UserService : IUserServiceBase
   {
-    private static UserDto DummyUser = new UserDto
+    private static readonly UserDto DummyUser = new UserDto
     {
       Username = "niemandr",
       Email = "1@2.com",
@@ -38,6 +38,12 @@ namespace DevApplication.Common.Services
       await Task.CompletedTask;
       DummyUser.LastSeen = DateTime.Now.AddMinutes(-30);
       return DummyUser;
+    }
+
+    public async Task UserSessionExtended(UserDto userDto)
+    {
+      // TODO: [TESTS] (UserService.UserSessionExtended) Add tests
+      await Task.CompletedTask;
     }
   }
 }
