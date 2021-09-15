@@ -12,6 +12,8 @@ using Rn.NetCore.Common.Metrics;
 using Rn.NetCore.Common.Metrics.Interfaces;
 using Rn.NetCore.Common.Metrics.Outputs;
 using Rn.NetCore.Common.Services;
+using Rn.NetCore.WebCommon.Helpers;
+using Rn.NetCore.WebCommon.Providers;
 using Rn.NetCore.WebCommon.Services;
 
 namespace DevConsole
@@ -53,6 +55,7 @@ namespace DevConsole
         // Helpers
         .AddSingleton<IEncryptionHelper, EncryptionHelper>()
         .AddSingleton<IJsonHelper, JsonHelper>()
+        .AddSingleton<IJwtTokenHelper, JwtTokenHelper>()
 
         // Abstractions
         .AddSingleton<IDateTimeAbstraction, DateTimeAbstraction>()
@@ -60,6 +63,9 @@ namespace DevConsole
         .AddSingleton<IDirectoryAbstraction, DirectoryAbstraction>()
         .AddSingleton<IFileAbstraction, FileAbstraction>()
         .AddSingleton<IPathAbstraction, PathAbstraction>()
+
+        // Providers
+        .AddSingleton<IRnWebCoreConfigProvider, RnWebCoreConfigProvider>()
 
         // Metrics
         .AddSingleton<IMetricServiceUtils, MetricServiceUtils>()

@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Rn.NetCore.Common.Abstractions;
 using Rn.NetCore.Common.Logging;
 using Rn.NetCore.WebCommon.Configuration;
+using Rn.NetCore.WebCommon.Providers;
 
 namespace Rn.NetCore.WebCommon.Helpers
 {
@@ -21,20 +22,23 @@ namespace Rn.NetCore.WebCommon.Helpers
   public class JwtTokenHelper : IJwtTokenHelper
   {
     private readonly ILoggerAdapter<JwtTokenHelper> _logger;
+    private readonly IRnWebCoreConfigProvider _configProvider;
     private readonly IDateTimeAbstraction _dateTime;
     private readonly AuthenticationConfig _config;
 
     public JwtTokenHelper(
       ILoggerAdapter<JwtTokenHelper> logger,
-      IDateTimeAbstraction dateTime,
-      IConfiguration configuration)
+      IRnWebCoreConfigProvider configProvider,
+      IDateTimeAbstraction dateTime)
     {
       // TODO: [TESTS] (JwtTokenHelper) Add tests
       _logger = logger;
       _dateTime = dateTime;
+      _configProvider = configProvider;
 
-      _config = BindConfig(configuration);
+      _config = configProvider.GetAuthenticationConfig();
 
+      // Ensure that the configuration is valid
       if (string.IsNullOrWhiteSpace(_config.Secret))
       {
         // TODO: [HANDLE] (JwtTokenHelper) Handle this
@@ -109,20 +113,6 @@ namespace Rn.NetCore.WebCommon.Helpers
         _logger.LogUnexpectedException(ex);
         return 0;
       }
-    }
-
-
-    // Internal methods
-    private static AuthenticationConfig BindConfig(IConfiguration config)
-    {
-      // TODO: [TESTS] (JwtTokenHelper.BindConfig) Add tests
-      var boundConfig = new AuthenticationConfig();
-      var section = config.GetSection(AuthenticationConfig.Key);
-
-      if (section.Exists())
-        section.Bind(boundConfig);
-
-      return boundConfig;
     }
   }
 }

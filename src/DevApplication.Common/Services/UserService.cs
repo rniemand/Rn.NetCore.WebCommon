@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Rn.NetCore.WebCommon.Models.Dto;
 using Rn.NetCore.WebCommon.Models.Requests;
-using Rn.NetCore.WebCommon.Models.Responses;
 using Rn.NetCore.WebCommon.Services;
 
 namespace DevApplication.Common.Services
