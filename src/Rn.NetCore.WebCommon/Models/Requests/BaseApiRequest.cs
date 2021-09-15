@@ -6,7 +6,7 @@ using Rn.NetCore.WebCommon.Models.Dto;
 namespace Rn.NetCore.WebCommon.Models.Requests
 {
   [ModelBinder(BinderType = typeof(BaseApiRequestModelBinder))]
-  public abstract class BaseApiRequest
+  public class BaseApiRequest
   {
     [OpenApiIgnore]
     public UserDto User { get; set; }
