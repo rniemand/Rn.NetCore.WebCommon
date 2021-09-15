@@ -79,6 +79,7 @@ namespace DevWebApi
 
       app.UseRouting();
       app.UseMiddleware<ApiMetricsMiddleware>();
+      app.UseMiddleware<JwtMiddleware>();
 
       app.UseAuthorization();
 

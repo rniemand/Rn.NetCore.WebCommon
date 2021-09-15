@@ -8,7 +8,6 @@ namespace DevApplication.Common.Services
 {
   public class UserService : IUserServiceBase
   {
-
     // Interface methods
     public async Task<UserDto> GetFromToken(string token)
     {
