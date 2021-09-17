@@ -14,7 +14,7 @@ namespace Rn.NetCore.WebCommon.Models.Requests
     [OpenApiIgnore]
     public int UserId { get; set; }
 
-    protected BaseApiRequest()
+    public BaseApiRequest()
     {
       // TODO: [TESTS] (BaseApiRequest) Add tests
       User = null;
