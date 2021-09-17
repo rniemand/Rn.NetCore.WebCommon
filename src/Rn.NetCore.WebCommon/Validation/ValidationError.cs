@@ -16,7 +16,7 @@ namespace Rn.NetCore.WebCommon.Validation
       // TODO: [TESTS] (ValidationError) Add tests
       IsValid = false;
       Errors = new List<string>();
-      RuleSetsExecuted = new string[0];
+      RuleSetsExecuted = Array.Empty<string>();
       Error = string.Empty;
     }
 
