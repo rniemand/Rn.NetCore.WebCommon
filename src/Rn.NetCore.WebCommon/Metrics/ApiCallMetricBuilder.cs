@@ -1,6 +1,6 @@
-﻿using Rn.NetCore.Common.Metrics;
-using Rn.NetCore.Common.Metrics.Enums;
-using Rn.NetCore.Common.Metrics.Models;
+﻿using Rn.NetCore.Metrics.Builders;
+using Rn.NetCore.Metrics.Enums;
+using Rn.NetCore.Metrics.Models;
 using Rn.NetCore.WebCommon.Models;
 
 namespace Rn.NetCore.WebCommon.Metrics
