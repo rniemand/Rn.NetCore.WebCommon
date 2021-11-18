@@ -39,9 +39,6 @@
     <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
     <Exec Command="$(NSwagExe_Net50) run /variables:Configuration=$(Configuration) /runtime:Net50" />
     <RemoveDir Directories="$(OutDir)References" />
-
-    <!-- HACK: fix bad generated client... -->
-    <!--<Exec WorkingDirectory="$(SpaRoot)" Command="npm run fix" />-->
   </Target>
 
 </Project>
