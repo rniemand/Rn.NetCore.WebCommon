@@ -47,11 +47,7 @@ namespace DevConsole
         // Configuration
         .AddSingleton(config)
 
-        // Services
-        .AddSingleton<IEncryptionService, EncryptionService>()
-
         // Helpers
-        .AddSingleton<IEncryptionHelper, EncryptionHelper>()
         .AddSingleton<IJsonHelper, JsonHelper>()
         .AddSingleton<IJwtTokenHelper, JwtTokenHelper>()
 

@@ -13,9 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rn.NetCore.WebCommon", "Rn.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rn.NetCore.WebCommon.T1.Tests", "Rn.NetCore.WebCommon.T1.Tests\Rn.NetCore.WebCommon.T1.Tests.csproj", "{AEEA4D8E-C9BB-4E01-9CD8-8AAAAC590D64}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dev", "Dev", "{634E8C93-F9C9-49CE-A8AA-D3ED4FA0C7F5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevApplication.Common", "DevApplication.Common\DevApplication.Common.csproj", "{C0D5257C-8C04-487A-BC4A-37E7EDB7C045}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevApplication.Common", "DevApplication.Common\DevApplication.Common.csproj", "{C0D5257C-8C04-487A-BC4A-37E7EDB7C045}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,7 +48,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7F65A692-BCD0-42E5-B9F5-F6C2DB4542BE} = {4D6C49FE-187B-442F-8567-0CFD5FFE8197}
 		{AEEA4D8E-C9BB-4E01-9CD8-8AAAAC590D64} = {4D6C49FE-187B-442F-8567-0CFD5FFE8197}
-		{C0D5257C-8C04-487A-BC4A-37E7EDB7C045} = {634E8C93-F9C9-49CE-A8AA-D3ED4FA0C7F5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3DDD2D7A-577F-404C-8A03-B9BAC32B80ED}

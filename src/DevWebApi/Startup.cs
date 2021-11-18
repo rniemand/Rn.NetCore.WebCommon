@@ -39,7 +39,6 @@ namespace DevWebApi
         .AddSingleton<IPathAbstraction, PathAbstraction>()
 
         // Helpers
-        .AddSingleton<IEncryptionHelper, EncryptionHelper>()
         .AddSingleton<IJsonHelper, JsonHelper>()
         .AddSingleton<IJwtTokenHelper, JwtTokenHelper>()
 
