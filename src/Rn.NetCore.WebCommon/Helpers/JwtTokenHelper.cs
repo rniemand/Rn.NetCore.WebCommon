@@ -3,7 +3,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Rn.NetCore.Common.Abstractions;
 using Rn.NetCore.Common.Logging;
@@ -22,7 +21,6 @@ namespace Rn.NetCore.WebCommon.Helpers
   public class JwtTokenHelper : IJwtTokenHelper
   {
     private readonly ILoggerAdapter<JwtTokenHelper> _logger;
-    private readonly IRnWebCoreConfigProvider _configProvider;
     private readonly IDateTimeAbstraction _dateTime;
     private readonly AuthenticationConfig _config;
 
@@ -34,7 +32,6 @@ namespace Rn.NetCore.WebCommon.Helpers
       // TODO: [TESTS] (JwtTokenHelper) Add tests
       _logger = logger;
       _dateTime = dateTime;
-      _configProvider = configProvider;
 
       _config = configProvider.GetAuthenticationConfig();
 

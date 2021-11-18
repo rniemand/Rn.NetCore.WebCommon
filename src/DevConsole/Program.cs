@@ -8,10 +8,8 @@ using NLog.Extensions.Logging;
 using Rn.NetCore.Common.Abstractions;
 using Rn.NetCore.Common.Helpers;
 using Rn.NetCore.Common.Logging;
-using Rn.NetCore.Common.Metrics;
-using Rn.NetCore.Common.Metrics.Interfaces;
-using Rn.NetCore.Common.Metrics.Outputs;
-using Rn.NetCore.Common.Services;
+using Rn.NetCore.Metrics;
+using Rn.NetCore.Metrics.Outputs;
 using Rn.NetCore.WebCommon.Helpers;
 using Rn.NetCore.WebCommon.Providers;
 using Rn.NetCore.WebCommon.Services;
@@ -49,11 +47,7 @@ namespace DevConsole
         // Configuration
         .AddSingleton(config)
 
-        // Services
-        .AddSingleton<IEncryptionService, EncryptionService>()
-
         // Helpers
-        .AddSingleton<IEncryptionHelper, EncryptionHelper>()
         .AddSingleton<IJsonHelper, JsonHelper>()
         .AddSingleton<IJwtTokenHelper, JwtTokenHelper>()
 

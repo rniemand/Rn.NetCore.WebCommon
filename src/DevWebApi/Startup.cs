@@ -8,8 +8,7 @@ using Microsoft.OpenApi.Models;
 using Rn.NetCore.Common.Abstractions;
 using Rn.NetCore.Common.Helpers;
 using Rn.NetCore.Common.Logging;
-using Rn.NetCore.Common.Metrics;
-using Rn.NetCore.Common.Metrics.Interfaces;
+using Rn.NetCore.Metrics;
 using Rn.NetCore.WebCommon.Filters;
 using Rn.NetCore.WebCommon.Helpers;
 using Rn.NetCore.WebCommon.Middleware;
@@ -40,7 +39,6 @@ namespace DevWebApi
         .AddSingleton<IPathAbstraction, PathAbstraction>()
 
         // Helpers
-        .AddSingleton<IEncryptionHelper, EncryptionHelper>()
         .AddSingleton<IJsonHelper, JsonHelper>()
         .AddSingleton<IJwtTokenHelper, JwtTokenHelper>()
 

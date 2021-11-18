@@ -1,4 +1,4 @@
-﻿using Rn.NetCore.Common.Metrics.Models;
+﻿using Rn.NetCore.Metrics.Models;
 using Rn.NetCore.WebCommon.Models;
 
 namespace Rn.NetCore.WebCommon.Metrics
