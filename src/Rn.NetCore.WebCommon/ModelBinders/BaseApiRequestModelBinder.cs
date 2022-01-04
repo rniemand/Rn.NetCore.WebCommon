@@ -60,7 +60,7 @@ namespace Rn.NetCore.WebCommon.ModelBinders
       }
       catch (Exception ex)
       {
-        _logger.Error(ex, "Unable to read body: {msg}", ex.Message);
+        _logger.LogError(ex, "Unable to read body: {msg}", ex.Message);
         return "{}";
       }
     }

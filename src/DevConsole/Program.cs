@@ -29,7 +29,7 @@ namespace DevConsole
 
       var tempFileName = path.GetTempFileName();
 
-      _logger.Info("All Done!");
+      _logger.LogInformation("All Done!");
     }
 
 
