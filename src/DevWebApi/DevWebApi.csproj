@@ -18,7 +18,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Rn.NetCore.Metrics" Version="6.0.0.102" />
-    <PackageReference Include="Rn.NetCore.Metrics.Rabbit" Version="6.0.0.102" />
+    <PackageReference Include="Rn.NetCore.Metrics.Rabbit" Version="6.0.0.103" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 

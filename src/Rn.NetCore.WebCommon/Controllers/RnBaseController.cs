@@ -51,6 +51,10 @@ namespace Rn.NetCore.WebCommon.Controllers
     private async Task ExtendUserSession()
     {
       // TODO: [TESTS] (BaseController.ExtendUserSession) Add tests
+      // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+      if (HttpContext is null)
+        return;
+
       if (!HttpContext.Items.ContainsKey("User"))
         return;
 
