@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Rn.NetCore.WebCommon.Models.Dto;
@@ -9,7 +10,7 @@ namespace DevApplication.Common.Services
 {
   public class UserService : IUserServiceBase
   {
-    private static readonly UserDto DummyUser = new UserDto
+    private static readonly UserDto DummyUser = new()
     {
       Username = "niemandr",
       Email = "1@2.com",
@@ -25,14 +26,14 @@ namespace DevApplication.Common.Services
     };
 
     // Interface methods
-    public async Task<UserDto> GetFromIdAsync(int userId)
+    public async Task<UserDto?> GetFromIdAsync(int userId)
     {
       // TODO: [TESTS] (UserService.GetFromIdAsync) Add tests
       await Task.CompletedTask;
       return DummyUser;
     }
 
-    public async Task<UserDto> LoginAsync(AuthenticationRequest request)
+    public async Task<UserDto?> LoginAsync(AuthenticationRequest request)
     {
       // TODO: [TESTS] (UserService.LoginAsync) Add tests
       await Task.CompletedTask;
