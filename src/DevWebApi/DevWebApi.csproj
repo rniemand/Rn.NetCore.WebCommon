@@ -3,23 +3,29 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Configurations>Debug;Release;QuickDebug</Configurations>
+	  <ProjectGuid>59EC7A5D-42B1-4A75-B0FD-20888BD33F81</ProjectGuid>
+	  <CodeAnalysisRuleSet>..\.sonarlint\rn-netcore-webcommoncsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.1" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.1" />
+    <Content Include="..\.sonarlint\rn-netcore-webcommon\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.4" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-    <PackageReference Include="NLog" Version="4.7.13" />
+    <PackageReference Include="NLog" Version="4.7.15" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
-    <PackageReference Include="NSwag.AspNetCore" Version="13.15.5" />
-    <PackageReference Include="NSwag.MSBuild" Version="13.15.5">
+    <PackageReference Include="NSwag.AspNetCore" Version="13.15.10" />
+    <PackageReference Include="NSwag.MSBuild" Version="13.15.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Rn.NetCore.Metrics" Version="6.0.0.102" />
+    <PackageReference Include="Rn.NetCore.Metrics" Version="6.0.0.103" />
     <PackageReference Include="Rn.NetCore.Metrics.Rabbit" Version="6.0.0.103" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -15,92 +15,91 @@ using Rn.NetCore.WebCommon.Middleware;
 using Rn.NetCore.WebCommon.Providers;
 using Rn.NetCore.WebCommon.Services;
 
-namespace DevWebApi
+namespace DevWebApi;
+
+public class Startup
 {
-  public class Startup
+  public IConfiguration Configuration { get; }
+
+  public Startup(IConfiguration configuration)
   {
-    public IConfiguration Configuration { get; }
+    Configuration = configuration;
+  }
 
-    public Startup(IConfiguration configuration)
+  public void ConfigureServices(IServiceCollection services)
+  {
+    services.AddSwaggerDocument();
+
+    services
+      // Abstractions
+      .AddSingleton<IDateTimeAbstraction, DateTimeAbstraction>()
+      .AddSingleton<IDirectoryAbstraction, DirectoryAbstraction>()
+      .AddSingleton<IFileAbstraction, FileAbstraction>()
+      .AddSingleton<IEnvironmentAbstraction, EnvironmentAbstraction>()
+      .AddSingleton<IPathAbstraction, PathAbstraction>()
+
+      // Helpers
+      .AddSingleton<IJsonHelper, JsonHelper>()
+      .AddSingleton<IJwtTokenHelper, JwtTokenHelper>()
+
+      // Providers
+      .AddSingleton<IRnWebCoreConfigProvider, RnWebCoreConfigProvider>()
+
+      // Metrics
+      .AddSingleton<IMetricServiceUtils, MetricServiceUtils>()
+      .AddSingleton<IMetricService, MetricService>()
+
+      // Logging
+      .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
+
+    // Consumer specific implementations
+    services
+      .AddSingleton<IUserServiceBase, UserService>();
+
+    services.AddControllers(options =>
     {
-      Configuration = configuration;
+      options.Filters.Add<ApiMetricActionFilter>();
+      options.Filters.Add<ApiMetricExceptionFilter>();
+      options.Filters.Add<ApiMetricResultFilter>();
+      options.Filters.Add<ApiMetricResourceFilter>();
+    });
+
+    services.AddSwaggerGen(c => { c
+      .SwaggerDoc("v1", new OpenApiInfo
+      {
+        Title = "DevWebApi",
+        Version = "v1"
+      });
+    });
+  }
+
+  public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+  {
+    if (env.IsDevelopment())
+    {
+      app.UseDeveloperExceptionPage();
+      app.UseOpenApi(settings =>
+      {
+        settings.Path = "/swagger/v1/swagger.json";
+      });
+      app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevWebApi v1"));
     }
 
-    public void ConfigureServices(IServiceCollection services)
+    app.UseHttpsRedirection();
+
+    app.UseRouting();
+    app.UseMiddleware<ApiMetricsMiddleware>();
+    app.UseMiddleware<JwtMiddleware>();
+    app.UseAuthorization();
+    app.UseCors(builder =>
     {
-      services.AddSwaggerDocument();
+      builder.AllowAnyHeader();
+      builder.AllowAnyOrigin();
+    });
 
-      services
-        // Abstractions
-        .AddSingleton<IDateTimeAbstraction, DateTimeAbstraction>()
-        .AddSingleton<IDirectoryAbstraction, DirectoryAbstraction>()
-        .AddSingleton<IFileAbstraction, FileAbstraction>()
-        .AddSingleton<IEnvironmentAbstraction, EnvironmentAbstraction>()
-        .AddSingleton<IPathAbstraction, PathAbstraction>()
-
-        // Helpers
-        .AddSingleton<IJsonHelper, JsonHelper>()
-        .AddSingleton<IJwtTokenHelper, JwtTokenHelper>()
-
-        // Providers
-        .AddSingleton<IRnWebCoreConfigProvider, RnWebCoreConfigProvider>()
-
-        // Metrics
-        .AddSingleton<IMetricServiceUtils, MetricServiceUtils>()
-        .AddSingleton<IMetricService, MetricService>()
-
-        // Logging
-        .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
-
-      // Consumer specific implementations
-      services
-        .AddSingleton<IUserServiceBase, UserService>();
-
-      services.AddControllers(options =>
-      {
-        options.Filters.Add<ApiMetricActionFilter>();
-        options.Filters.Add<ApiMetricExceptionFilter>();
-        options.Filters.Add<ApiMetricResultFilter>();
-        options.Filters.Add<ApiMetricResourceFilter>();
-      });
-
-      services.AddSwaggerGen(c => { c
-        .SwaggerDoc("v1", new OpenApiInfo
-        {
-          Title = "DevWebApi",
-          Version = "v1"
-        });
-      });
-    }
-
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    app.UseEndpoints(endpoints =>
     {
-      if (env.IsDevelopment())
-      {
-        app.UseDeveloperExceptionPage();
-        app.UseOpenApi(settings =>
-        {
-          settings.Path = "/swagger/v1/swagger.json";
-        });
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevWebApi v1"));
-      }
-
-      app.UseHttpsRedirection();
-
-      app.UseRouting();
-      app.UseMiddleware<ApiMetricsMiddleware>();
-      app.UseMiddleware<JwtMiddleware>();
-      app.UseAuthorization();
-      app.UseCors(builder =>
-      {
-        builder.AllowAnyHeader();
-        builder.AllowAnyOrigin();
-      });
-
-      app.UseEndpoints(endpoints =>
-      {
-        endpoints.MapControllers();
-      });
-    }
+      endpoints.MapControllers();
+    });
   }
 }

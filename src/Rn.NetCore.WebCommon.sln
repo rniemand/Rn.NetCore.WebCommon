@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rn.NetCore.WebCommon.T1.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevApplication.Common", "DevApplication.Common\DevApplication.Common.csproj", "{C0D5257C-8C04-487A-BC4A-37E7EDB7C045}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1203D7B4-434E-4B3E-B6DB-34139D6C9AB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,7 +60,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7F65A692-BCD0-42E5-B9F5-F6C2DB4542BE} = {4D6C49FE-187B-442F-8567-0CFD5FFE8197}
-		{AEEA4D8E-C9BB-4E01-9CD8-8AAAAC590D64} = {4D6C49FE-187B-442F-8567-0CFD5FFE8197}
+		{AEEA4D8E-C9BB-4E01-9CD8-8AAAAC590D64} = {1203D7B4-434E-4B3E-B6DB-34139D6C9AB4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3DDD2D7A-577F-404C-8A03-B9BAC32B80ED}

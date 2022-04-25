@@ -6,45 +6,44 @@ using Rn.NetCore.WebCommon.Models.Dto;
 using Rn.NetCore.WebCommon.Models.Requests;
 using Rn.NetCore.WebCommon.Services;
 
-namespace DevApplication.Common.Services
+namespace DevApplication.Common.Services;
+
+public class UserService : IUserServiceBase
 {
-  public class UserService : IUserServiceBase
+  private static readonly UserDto DummyUser = new()
   {
-    private static readonly UserDto DummyUser = new()
+    Username = "niemandr",
+    Email = "1@2.com",
+    FirstName = "Richard",
+    LastName = "Niemand",
+    UserId = 1,
+    Attributes = new Dictionary<string, object>
     {
-      Username = "niemandr",
-      Email = "1@2.com",
-      FirstName = "Richard",
-      LastName = "Niemand",
-      UserId = 1,
-      Attributes = new Dictionary<string, object>
-      {
-        { "Number", 10 },
-        { "GUID", "1A07BF45-E038-4F32-B792-75AC5A0ED212" },
-        { "Boolean", true }
-      }
-    };
-
-    // Interface methods
-    public async Task<UserDto?> GetFromIdAsync(int userId)
-    {
-      // TODO: [TESTS] (UserService.GetFromIdAsync) Add tests
-      await Task.CompletedTask;
-      return DummyUser;
+      { "Number", 10 },
+      { "GUID", "1A07BF45-E038-4F32-B792-75AC5A0ED212" },
+      { "Boolean", true }
     }
+  };
 
-    public async Task<UserDto?> LoginAsync(AuthenticationRequest request)
-    {
-      // TODO: [TESTS] (UserService.LoginAsync) Add tests
-      await Task.CompletedTask;
-      DummyUser.LastSeen = DateTime.Now.AddMinutes(-30);
-      return DummyUser;
-    }
+  // Interface methods
+  public async Task<UserDto?> GetFromIdAsync(int userId)
+  {
+    // TODO: [TESTS] (UserService.GetFromIdAsync) Add tests
+    await Task.CompletedTask;
+    return DummyUser;
+  }
 
-    public async Task UserSessionExtended(UserDto userDto)
-    {
-      // TODO: [TESTS] (UserService.UserSessionExtended) Add tests
-      await Task.CompletedTask;
-    }
+  public async Task<UserDto?> LoginAsync(AuthenticationRequest request)
+  {
+    // TODO: [TESTS] (UserService.LoginAsync) Add tests
+    await Task.CompletedTask;
+    DummyUser.LastSeen = DateTime.Now.AddMinutes(-30);
+    return DummyUser;
+  }
+
+  public async Task UserSessionExtended(UserDto userDto)
+  {
+    // TODO: [TESTS] (UserService.UserSessionExtended) Add tests
+    await Task.CompletedTask;
   }
 }

@@ -1,7 +1,6 @@
-﻿namespace Rn.NetCore.WebCommon
+﻿namespace Rn.NetCore.WebCommon;
+
+public static class WebKeys
 {
-  public class WebKeys
-  {
-    public const string RequestContextKey = "RnRequestContext";
-  }
+  public const string RequestContextKey = "RnRequestContext";
 }

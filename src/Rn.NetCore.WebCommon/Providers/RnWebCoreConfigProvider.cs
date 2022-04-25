@@ -1,52 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Rn.NetCore.Common.Logging;
 using Rn.NetCore.WebCommon.Configuration;
 
-namespace Rn.NetCore.WebCommon.Providers
+namespace Rn.NetCore.WebCommon.Providers;
+
+public interface IRnWebCoreConfigProvider
 {
-  public interface IRnWebCoreConfigProvider
+  AuthenticationConfig GetAuthenticationConfig();
+}
+
+public class RnWebCoreConfigProvider : IRnWebCoreConfigProvider
+{
+  private readonly ILoggerAdapter<RnWebCoreConfigProvider> _logger;
+  private readonly IConfiguration _configuration;
+
+  private AuthenticationConfig _authenticationConfig;
+
+  public RnWebCoreConfigProvider(
+    ILoggerAdapter<RnWebCoreConfigProvider> logger,
+    IConfiguration configuration)
   {
-    AuthenticationConfig GetAuthenticationConfig();
+    // TODO: [TESTS] (RnWebCoreConfigProvider.RnWebCoreConfigProvider) Add tests
+    _logger = logger;
+    _configuration = configuration;
+
+    _authenticationConfig = null;
   }
 
-  public class RnWebCoreConfigProvider : IRnWebCoreConfigProvider
+
+  // Interface methods
+  public AuthenticationConfig GetAuthenticationConfig()
   {
-    private readonly ILoggerAdapter<RnWebCoreConfigProvider> _logger;
-    private readonly IConfiguration _configuration;
-
-    private AuthenticationConfig _authenticationConfig;
-
-    public RnWebCoreConfigProvider(
-      ILoggerAdapter<RnWebCoreConfigProvider> logger,
-      IConfiguration configuration)
-    {
-      // TODO: [TESTS] (RnWebCoreConfigProvider.RnWebCoreConfigProvider) Add tests
-      _logger = logger;
-      _configuration = configuration;
-
-      _authenticationConfig = null;
-    }
-
-
-    // Interface methods
-    public AuthenticationConfig GetAuthenticationConfig()
-    {
-      // TODO: [TESTS] (RnWebCoreConfigProvider.GetAuthenticationConfig) Add tests
-      if (_authenticationConfig is not null)
-        return _authenticationConfig;
-
-      _authenticationConfig = new AuthenticationConfig();
-      var section = _configuration.GetSection(AuthenticationConfig.Key);
-
-      if(section.Exists())
-        section.Bind(_authenticationConfig);
-
+    // TODO: [TESTS] (RnWebCoreConfigProvider.GetAuthenticationConfig) Add tests
+    if (_authenticationConfig is not null)
       return _authenticationConfig;
-    }
+
+    _authenticationConfig = new AuthenticationConfig();
+    var section = _configuration.GetSection(AuthenticationConfig.Key);
+
+    if(section.Exists())
+      section.Bind(_authenticationConfig);
+
+    return _authenticationConfig;
   }
 }

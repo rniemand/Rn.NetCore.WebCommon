@@ -8,72 +8,71 @@ using Rn.NetCore.Common.Logging;
 using Rn.NetCore.WebCommon.Models.Dto;
 using Rn.NetCore.WebCommon.Models.Requests;
 
-namespace Rn.NetCore.WebCommon.ModelBinders
+namespace Rn.NetCore.WebCommon.ModelBinders;
+
+public class BaseApiRequestModelBinder : IModelBinder
 {
-  public class BaseApiRequestModelBinder : IModelBinder
+  private readonly ILoggerAdapter<BaseApiRequestModelBinder> _logger;
+  private readonly IJsonHelper _jsonHelper;
+
+  public BaseApiRequestModelBinder(
+    ILoggerAdapter<BaseApiRequestModelBinder> logger,
+    IJsonHelper jsonHelper)
   {
-    private readonly ILoggerAdapter<BaseApiRequestModelBinder> _logger;
-    private readonly IJsonHelper _jsonHelper;
+    // TODO: [TESTS] (BaseApiRequestModelBinder) Add tests
+    _logger = logger;
+    _jsonHelper = jsonHelper;
+  }
 
-    public BaseApiRequestModelBinder(
-      ILoggerAdapter<BaseApiRequestModelBinder> logger,
-      IJsonHelper jsonHelper)
+
+  // Interface methods
+  public async Task BindModelAsync(ModelBindingContext bindingContext)
+  {
+    // TODO: [TESTS] (BaseApiRequestModelBinder.BindModelAsync) Add tests
+    if (bindingContext == null)
     {
-      // TODO: [TESTS] (BaseApiRequestModelBinder) Add tests
-      _logger = logger;
-      _jsonHelper = jsonHelper;
+      throw new ArgumentNullException(nameof(bindingContext));
     }
 
+    var bodyJson = await GetBody(bindingContext);
+    var modelType = bindingContext.ModelType;
+    var model = _jsonHelper.DeserializeObject(bodyJson, modelType);
+    AppendUser(model as BaseApiRequest, bindingContext);
 
-    // Interface methods
-    public async Task BindModelAsync(ModelBindingContext bindingContext)
+    bindingContext.Result = ModelBindingResult.Success(model);
+  }
+
+
+  // Internal methods
+  private async Task<string> GetBody(ModelBindingContext bindingContext)
+  {
+    // TODO: [TESTS] (BaseApiRequestModelBinder.GetBody) Add tests
+
+    try
     {
-      // TODO: [TESTS] (BaseApiRequestModelBinder.BindModelAsync) Add tests
-      if (bindingContext == null)
-      {
-        throw new ArgumentNullException(nameof(bindingContext));
-      }
+      using var reader = new StreamReader(
+        bindingContext.ActionContext.HttpContext.Request.Body,
+        Encoding.UTF8
+      );
 
-      var bodyJson = await GetBody(bindingContext);
-      var modelType = bindingContext.ModelType;
-      var model = _jsonHelper.DeserializeObject(bodyJson, modelType);
-      AppendUser(model as BaseApiRequest, bindingContext);
+      var rawBody = await reader.ReadToEndAsync();
+      return string.IsNullOrWhiteSpace(rawBody) ? "{}" : rawBody;
+    }
+    catch (Exception ex)
+    {
+      _logger.LogError(ex, "Unable to read body: {msg}", ex.Message);
+      return "{}";
+    }
+  }
 
-      bindingContext.Result = ModelBindingResult.Success(model);
+  private static void AppendUser(BaseApiRequest model, ModelBindingContext bindingContext)
+  {
+    // TODO: [TESTS] (BaseApiRequestModelBinder.AppendUser) Add tests
+    if (bindingContext.HttpContext.Items.ContainsKey("User"))
+    {
+      model.User = (UserDto)bindingContext.HttpContext.Items["User"];
     }
 
-
-    // Internal methods
-    private async Task<string> GetBody(ModelBindingContext bindingContext)
-    {
-      // TODO: [TESTS] (BaseApiRequestModelBinder.GetBody) Add tests
-
-      try
-      {
-        using var reader = new StreamReader(
-          bindingContext.ActionContext.HttpContext.Request.Body,
-          Encoding.UTF8
-        );
-
-        var rawBody = await reader.ReadToEndAsync();
-        return string.IsNullOrWhiteSpace(rawBody) ? "{}" : rawBody;
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError(ex, "Unable to read body: {msg}", ex.Message);
-        return "{}";
-      }
-    }
-
-    private static void AppendUser(BaseApiRequest model, ModelBindingContext bindingContext)
-    {
-      // TODO: [TESTS] (BaseApiRequestModelBinder.AppendUser) Add tests
-      if (bindingContext.HttpContext.Items.ContainsKey("User"))
-      {
-        model.User = (UserDto)bindingContext.HttpContext.Items["User"];
-      }
-
-      model.UserId = model.User?.UserId ?? 0;
-    }
+    model.UserId = model.User?.UserId ?? 0;
   }
 }
