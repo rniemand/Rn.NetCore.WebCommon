@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Configurations>Debug;Release;QuickDebug</Configurations>
+	  <ProjectGuid>59EC7A5D-42B1-4A75-B0FD-20888BD33F81</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>

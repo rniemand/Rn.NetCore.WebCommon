@@ -8,6 +8,7 @@
     <Authors>Richard Niemand</Authors>
     <Description>Core libs for my various projects</Description>
     <Configurations>Debug;Release;QuickDebug</Configurations>
+	  <ProjectGuid>5E020471-9DB6-4EAE-BA6A-E651FF340CDC</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>

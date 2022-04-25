@@ -4,8 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
-
-    <Configurations>Debug;Release;QuickDebug</Configurations>
+	  <Configurations>Debug;Release;QuickDebug</Configurations>
+	  <ProjectGuid>04326918-EE86-46D1-BB3B-C9CC55DCEF38</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
