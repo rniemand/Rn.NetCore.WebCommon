@@ -14,74 +14,73 @@ using Rn.NetCore.WebCommon.Helpers;
 using Rn.NetCore.WebCommon.Providers;
 using Rn.NetCore.WebCommon.Services;
 
-namespace DevConsole
+namespace DevConsole;
+
+class Program
 {
-  class Program
+  private static IServiceProvider _serviceProvider;
+  private static ILoggerAdapter<Program> _logger;
+
+  static void Main(string[] args)
   {
-    private static IServiceProvider _serviceProvider;
-    private static ILoggerAdapter<Program> _logger;
+    ConfigureDI();
 
-    static void Main(string[] args)
-    {
-      ConfigureDI();
+    var path = _serviceProvider.GetRequiredService<IPathAbstraction>();
 
-      var path = _serviceProvider.GetRequiredService<IPathAbstraction>();
+    var tempFileName = path.GetTempFileName();
 
-      var tempFileName = path.GetTempFileName();
-
-      _logger.LogInformation("All Done!");
-    }
+    _logger.LogInformation("All Done!");
+  }
 
 
-    // DI related methods
-    private static void ConfigureDI()
-    {
-      var services = new ServiceCollection();
+  // DI related methods
+  private static void ConfigureDI()
+  {
+    var services = new ServiceCollection();
 
-      var config = new ConfigurationBuilder()
-        .SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-        .Build();
+    var config = new ConfigurationBuilder()
+      .SetBasePath(Directory.GetCurrentDirectory())
+      .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+      .Build();
 
-      services
-        // Configuration
-        .AddSingleton(config)
+    services
+      // Configuration
+      .AddSingleton(config)
 
-        // Helpers
-        .AddSingleton<IJsonHelper, JsonHelper>()
-        .AddSingleton<IJwtTokenHelper, JwtTokenHelper>()
+      // Helpers
+      .AddSingleton<IJsonHelper, JsonHelper>()
+      .AddSingleton<IJwtTokenHelper, JwtTokenHelper>()
 
-        // Abstractions
-        .AddSingleton<IDateTimeAbstraction, DateTimeAbstraction>()
-        .AddSingleton<IEnvironmentAbstraction, EnvironmentAbstraction>()
-        .AddSingleton<IDirectoryAbstraction, DirectoryAbstraction>()
-        .AddSingleton<IFileAbstraction, FileAbstraction>()
-        .AddSingleton<IPathAbstraction, PathAbstraction>()
+      // Abstractions
+      .AddSingleton<IDateTimeAbstraction, DateTimeAbstraction>()
+      .AddSingleton<IEnvironmentAbstraction, EnvironmentAbstraction>()
+      .AddSingleton<IDirectoryAbstraction, DirectoryAbstraction>()
+      .AddSingleton<IFileAbstraction, FileAbstraction>()
+      .AddSingleton<IPathAbstraction, PathAbstraction>()
 
-        // Providers
-        .AddSingleton<IRnWebCoreConfigProvider, RnWebCoreConfigProvider>()
+      // Providers
+      .AddSingleton<IRnWebCoreConfigProvider, RnWebCoreConfigProvider>()
 
-        // Metrics
-        .AddSingleton<IMetricServiceUtils, MetricServiceUtils>()
-        .AddSingleton<IMetricService, MetricService>()
-        .AddSingleton<IMetricOutput, CsvMetricOutput>()
+      // Metrics
+      .AddSingleton<IMetricServiceUtils, MetricServiceUtils>()
+      .AddSingleton<IMetricService, MetricService>()
+      .AddSingleton<IMetricOutput, CsvMetricOutput>()
 
-        // Logging
-        .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>))
-        .AddLogging(loggingBuilder =>
-        {
-          // configure Logging with NLog
-          loggingBuilder.ClearProviders();
-          loggingBuilder.SetMinimumLevel(LogLevel.Trace);
-          loggingBuilder.AddNLog(config);
-        });
+      // Logging
+      .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>))
+      .AddLogging(loggingBuilder =>
+      {
+        // configure Logging with NLog
+        loggingBuilder.ClearProviders();
+        loggingBuilder.SetMinimumLevel(LogLevel.Trace);
+        loggingBuilder.AddNLog(config);
+      });
 
-      // Consumer specific implementations
-      services
-        .AddSingleton<IUserServiceBase, UserService>();
+    // Consumer specific implementations
+    services
+      .AddSingleton<IUserServiceBase, UserService>();
 
-      _serviceProvider = services.BuildServiceProvider();
-      _logger = _serviceProvider.GetService<ILoggerAdapter<Program>>();
-    }
+    _serviceProvider = services.BuildServiceProvider();
+    _logger = _serviceProvider.GetService<ILoggerAdapter<Program>>();
   }
 }

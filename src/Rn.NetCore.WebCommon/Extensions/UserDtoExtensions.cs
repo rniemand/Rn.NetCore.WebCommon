@@ -2,62 +2,61 @@
 using Rn.NetCore.Common.Extensions;
 using Rn.NetCore.WebCommon.Models.Dto;
 
-namespace Rn.NetCore.WebCommon.Extensions
+namespace Rn.NetCore.WebCommon.Extensions;
+
+public static class UserDtoExtensions
 {
-  public static class UserDtoExtensions
+  // TODO: [MOVE] (UserDtoExtensions) Move to Rn.NetCore.WebCommon
+  public static int GetIntAttribute(this UserDto user, string attribute, int fallback)
   {
-    // TODO: [MOVE] (UserDtoExtensions) Move to Rn.NetCore.WebCommon
-    public static int GetIntAttribute(this UserDto user, string attribute, int fallback)
-    {
-      // TODO: [TESTS] (UserDtoExtensions.GetIntAttribute) Add tests
-      var rawAttribute = user.GetRawAttribute(attribute);
+    // TODO: [TESTS] (UserDtoExtensions.GetIntAttribute) Add tests
+    var rawAttribute = user.GetRawAttribute(attribute);
 
-      // ReSharper disable once ConvertIfStatementToSwitchStatement
-      if (rawAttribute == null)
-        return fallback;
-
-      if (rawAttribute is int intAttribute)
-        return intAttribute;
-
-      if (rawAttribute is string stringAttribute)
-        return int.TryParse(stringAttribute, out var parsed) ? parsed : fallback;
-
+    // ReSharper disable once ConvertIfStatementToSwitchStatement
+    if (rawAttribute == null)
       return fallback;
-    }
 
-    public static int GetIntAttribute(this UserDto user, string attribute)
-      => GetIntAttribute(user, attribute, 0);
+    if (rawAttribute is int intAttribute)
+      return intAttribute;
 
-    public static bool HasAttribute(this UserDto user, string attribute)
-    {
-      // TODO: [TESTS] (UserDtoExtensions.HasAttribute) Add tests
-      if (user is null)
-        return false;
+    if (rawAttribute is string stringAttribute)
+      return int.TryParse(stringAttribute, out var parsed) ? parsed : fallback;
 
-      // ReSharper disable once ConvertIfStatementToReturnStatement
-      if (user.Attributes.Count == 0)
-        return false;
+    return fallback;
+  }
 
-      return user.Attributes.Any(x => x.Key.IgnoreCaseEquals(attribute));
-    }
+  public static int GetIntAttribute(this UserDto user, string attribute)
+    => GetIntAttribute(user, attribute, 0);
 
-    public static object GetRawAttribute(this UserDto user, string attribute)
-    {
-      // TODO: [TESTS] (UserDtoExtensions.GetRawAttribute) Add tests
-      if (user is null || !user.HasAttribute(attribute))
-        return null;
+  public static bool HasAttribute(this UserDto user, string attribute)
+  {
+    // TODO: [TESTS] (UserDtoExtensions.HasAttribute) Add tests
+    if (user is null)
+      return false;
 
-      return user.Attributes
-        .First(x => x.Key
-          .IgnoreCaseEquals(attribute)
-        ).Value;
-    }
+    // ReSharper disable once ConvertIfStatementToReturnStatement
+    if (user.Attributes.Count == 0)
+      return false;
 
-    public static UserDto SetAttribute(this UserDto user, string attribute, int value)
-    {
-      // TODO: [TESTS] (UserDtoExtensions.SetAttribute) Add tests
-      user.Attributes[attribute] = value;
-      return user;
-    }
+    return user.Attributes.Any(x => x.Key.IgnoreCaseEquals(attribute));
+  }
+
+  public static object GetRawAttribute(this UserDto user, string attribute)
+  {
+    // TODO: [TESTS] (UserDtoExtensions.GetRawAttribute) Add tests
+    if (user is null || !user.HasAttribute(attribute))
+      return null;
+
+    return user.Attributes
+      .First(x => x.Key
+        .IgnoreCaseEquals(attribute)
+      ).Value;
+  }
+
+  public static UserDto SetAttribute(this UserDto user, string attribute, int value)
+  {
+    // TODO: [TESTS] (UserDtoExtensions.SetAttribute) Add tests
+    user.Attributes[attribute] = value;
+    return user;
   }
 }
