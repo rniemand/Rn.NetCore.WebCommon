@@ -5,7 +5,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <Configurations>Debug;Release;QuickDebug</Configurations>
 	  <ProjectGuid>261E4119-81DA-421D-8E95-36A64EB867E1</ProjectGuid>
+	  <CodeAnalysisRuleSet>..\.sonarlint\rn-netcore-webcommoncsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\.sonarlint\rn-netcore-webcommon\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />

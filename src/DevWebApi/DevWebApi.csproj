@@ -4,7 +4,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <Configurations>Debug;Release;QuickDebug</Configurations>
 	  <ProjectGuid>59EC7A5D-42B1-4A75-B0FD-20888BD33F81</ProjectGuid>
+	  <CodeAnalysisRuleSet>..\.sonarlint\rn-netcore-webcommoncsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\.sonarlint\rn-netcore-webcommon\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" NoWarn="NU1605" />
