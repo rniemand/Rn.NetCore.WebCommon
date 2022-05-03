@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Rn.NetCore.WebCommon\Rn.NetCore.WebCommon.csproj" />
+    <ProjectReference Include="..\..\src\DevApplication.Common\DevApplication.Common.csproj" />
   </ItemGroup>
 
 </Project>
