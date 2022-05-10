@@ -9,7 +9,17 @@
     <Description>Core libs for my various projects</Description>
     <Configurations>Debug;Release;QuickDebug</Configurations>
 	  <ProjectGuid>5E020471-9DB6-4EAE-BA6A-E651FF340CDC</ProjectGuid>
+	  <PackageProjectUrl>https://github.com/rniemand/Rn.NetCore.WebCommon</PackageProjectUrl>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <RepositoryUrl>https://github.com/rniemand/Rn.NetCore.WebCommon</RepositoryUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.0.1" />
