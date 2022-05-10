@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Rn.NetCore.Common.Abstractions;
 using Rn.NetCore.WebCommon.Extensions;
 
 namespace Rn.NetCore.WebCommon.Filters;
 
+// DOCS: docs\filters\ApiMetricActionFilter.md
 public class ApiMetricActionFilter : IActionFilter
 {
   private readonly IDateTimeAbstraction _dateTime;
