@@ -1,11 +1,11 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Rn.NetCore.WebCommon.Configuration;
 
 public class AuthenticationConfig
 {
-  public const string Key = "RnWebCore:Authentication";
+  public const string Key = "Rn.WebCore:Authentication";
 
   [JsonProperty("Secret"), JsonPropertyName("Secret")]
   public string Secret { get; set; }
