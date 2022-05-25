@@ -22,7 +22,6 @@ public class ApiMetricExceptionFilter : IExceptionFilter
 
   public void OnException(ExceptionContext context)
   {
-    // TODO: [TESTS] (ApiMetricExceptionFilter.OnException) Add tests
     var metricContext = context.HttpContext.GetApiRequestMetricContext();
     if (metricContext == null)
       return;

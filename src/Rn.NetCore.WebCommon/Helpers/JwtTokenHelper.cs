@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -29,7 +29,6 @@ public class JwtTokenHelper : IJwtTokenHelper
     IRnWebCoreConfigProvider configProvider,
     IDateTimeAbstraction dateTime)
   {
-    // TODO: [TESTS] (JwtTokenHelper) Add tests
     _logger = logger;
     _dateTime = dateTime;
 
@@ -47,7 +46,6 @@ public class JwtTokenHelper : IJwtTokenHelper
   // Interface methods
   public string GenerateToken(int userId)
   {
-    // TODO: [TESTS] (JwtTokenHelper.GenerateToken) Add tests
     var tokenHandler = new JwtSecurityTokenHandler();
     var key = Encoding.ASCII.GetBytes(_config.Secret);
 
@@ -70,7 +68,6 @@ public class JwtTokenHelper : IJwtTokenHelper
 
   public JwtSecurityToken ExtractToken(string token)
   {
-    // TODO: [TESTS] (JwtTokenHelper.ExtractToken) Add tests
     try
     {
       var tokenHandler = new JwtSecurityTokenHandler();
@@ -96,7 +93,6 @@ public class JwtTokenHelper : IJwtTokenHelper
 
   public int ExtractUserId(string token)
   {
-    // TODO: [TESTS] (JwtTokenHelper.ExtractUserId) Add tests
     var jwtToken = ExtractToken(token);
     if (jwtToken?.Claims == null)
       return 0;

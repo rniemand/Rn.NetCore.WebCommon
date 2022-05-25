@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +19,6 @@ public class BaseApiRequestModelBinder : IModelBinder
     ILoggerAdapter<BaseApiRequestModelBinder> logger,
     IJsonHelper jsonHelper)
   {
-    // TODO: [TESTS] (BaseApiRequestModelBinder) Add tests
     _logger = logger;
     _jsonHelper = jsonHelper;
   }
@@ -28,7 +27,6 @@ public class BaseApiRequestModelBinder : IModelBinder
   // Interface methods
   public async Task BindModelAsync(ModelBindingContext bindingContext)
   {
-    // TODO: [TESTS] (BaseApiRequestModelBinder.BindModelAsync) Add tests
     if (bindingContext == null)
     {
       throw new ArgumentNullException(nameof(bindingContext));
@@ -46,7 +44,6 @@ public class BaseApiRequestModelBinder : IModelBinder
   // Internal methods
   private async Task<string> GetBody(ModelBindingContext bindingContext)
   {
-    // TODO: [TESTS] (BaseApiRequestModelBinder.GetBody) Add tests
 
     try
     {
@@ -67,7 +64,6 @@ public class BaseApiRequestModelBinder : IModelBinder
 
   private static void AppendUser(BaseApiRequest model, ModelBindingContext bindingContext)
   {
-    // TODO: [TESTS] (BaseApiRequestModelBinder.AppendUser) Add tests
     if (bindingContext.HttpContext.Items.ContainsKey("User"))
     {
       model.User = (UserDto)bindingContext.HttpContext.Items["User"];

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Rn.NetCore.WebCommon.Controllers;
 
@@ -9,7 +9,5 @@ public class AuthController : AuthControllerBase<AuthController>
 {
   public AuthController(IServiceProvider serviceProvider)
     : base(serviceProvider)
-  {
-    // TODO: [TESTS] (AuthController) Add tests
-  }
+  { }
 }

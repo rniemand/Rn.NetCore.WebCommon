@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
@@ -90,7 +90,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetAction(string action, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetAction) Add tests
     if (string.IsNullOrWhiteSpace(action))
       return this;
 
@@ -103,7 +102,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetRequestMethod(string method, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetRequestMethod) Add tests
     if (string.IsNullOrWhiteSpace(method))
       return this;
 
@@ -116,7 +114,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetRequestContentType(string contentType, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetRequestContentType) Add tests
     if (string.IsNullOrWhiteSpace(contentType))
       return this;
 
@@ -129,7 +126,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetRequestContentLength(long? contentLength, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetRequestContentType) Add tests
     var safeLength = contentLength ?? 0;
     if (safeLength == 0)
       return this;
@@ -143,7 +139,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetRequestProtocol(string protocol, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetRequestProtocol) Add tests
     if (string.IsNullOrWhiteSpace(protocol))
       return this;
 
@@ -156,7 +151,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetRequestScheme(string scheme, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetRequestScheme) Add tests
     if (string.IsNullOrWhiteSpace(scheme))
       return this;
 
@@ -169,7 +163,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetRequestHost(HostString host, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetRequestHost) Add tests
     if (string.IsNullOrWhiteSpace(host.Host))
       return this;
 
@@ -182,7 +175,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetRequestPort(HostString host, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetRequestPort) Add tests
     var port = host.Port ?? 0;
     if (port == 0 && Scheme.Length > 0)
       port = Scheme == "HTTPS" ? 443 : 80;
@@ -199,7 +191,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetRequestEndTime(DateTime utcNow, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetRequestEndTime) Add tests
     if (EndTime.HasValue && !forceOverwrite)
       return this;
 
@@ -209,7 +200,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetResultsStartTime(DateTime utcNow, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetResultsStartTime) Add tests
 
     if (ResultsStartTime.HasValue && !forceOverwrite)
       return this;
@@ -220,7 +210,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetResultsEndTime(DateTime utcNow, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetResultsEndTime) Add tests
     if (ResultsEndTime.HasValue && !forceOverwrite)
       return this;
 
@@ -230,7 +219,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetExThrownTime(DateTime utcNow, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetExThrownTime) Add tests
     if (ExThrownTime.HasValue && !forceOverwrite)
       return this;
 
@@ -240,7 +228,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetActionStartTime(DateTime utcNow, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetActionStartTime) Add tests
     if (ActionStartTime.HasValue && !forceOverwrite)
       return this;
 
@@ -250,7 +237,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetRequestGuid(string requestGuid, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetRequestGuid) Add tests
     if (!string.IsNullOrWhiteSpace(Guid) && !forceOverwrite)
       return this;
 
@@ -260,13 +246,11 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetRequestGuid(Guid requestGuid, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetRequestGuid) Add tests
     return SetRequestGuid(requestGuid.ToString("D").UpperTrim(), forceOverwrite);
   }
 
   public ApiMetricRequestContext SetActionEndTime(DateTime utcNow, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetActionEndTime) Add tests
     if (ActionEndTime.HasValue && !forceOverwrite)
       return this;
 
@@ -276,7 +260,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext WithRouteData(RouteData routeData, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithRouteData) Add tests
     if (routeData == null)
       return this;
 
@@ -286,7 +269,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext WithHttpRequest(HttpRequest request, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithHttpRequest) Add tests
     if (request == null)
       return this;
 
@@ -303,7 +285,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext WithException(Exception ex, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithException) Add tests
     if (ex == null)
       return this;
 
@@ -316,7 +297,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetMiddlewareStartTime(DateTime utcNow, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetMiddlewareStartTime) Add tests
     if (MiddlewareStartTime.HasValue && !forceOverwrite)
       return this;
 
@@ -326,7 +306,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext SetMiddlewareEndTime(DateTime utcNow, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetMiddlewareEndTime) Add tests
     if (MiddlewareEndTime.HasValue && !forceOverwrite)
       return this;
 
@@ -336,7 +315,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext WithResponseCode(int responseCode, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithResponseCode) Add tests
     if (ResponseCode > 0 && !forceOverwrite)
       return this;
 
@@ -348,7 +326,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext WithResponseContentType(string contentType, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithResponseContentType) Add tests
     if (!string.IsNullOrWhiteSpace(ResponseContentType) && !forceOverwrite)
       return this;
 
@@ -360,7 +337,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext WithResponseContentLength(HttpResponse response, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithResponseContentLength) Add tests
     if (response == null)
       return this;
 
@@ -378,7 +354,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext WithResponseHeaderCount(HttpResponse response, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithResponseHeaderCount) Add tests
     if (response == null)
       return this;
 
@@ -391,7 +366,6 @@ public class ApiMetricRequestContext
 
   public ApiMetricRequestContext WithHttpResponse(HttpResponse response, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithHttpResponse) Add tests
     if (response == null)
       return this;
 
@@ -405,7 +379,6 @@ public class ApiMetricRequestContext
   // Builder Methods (Filter Hooks)
   public void WithActionExecutingContext(ActionExecutingContext context, DateTime utcNow, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithActionExecutingContext) Add tests
     if (context == null)
       return;
 
@@ -416,7 +389,6 @@ public class ApiMetricRequestContext
 
   public void WithActionExecutedContext(ActionExecutedContext context, DateTime utcNow, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithActionExecutedContext) Add tests
     if (context == null)
       return;
 
@@ -425,7 +397,6 @@ public class ApiMetricRequestContext
 
   public void WithResourceExecutingContext(ResourceExecutingContext context, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithResourceExecutingContext) Add tests
     if (context == null)
       return;
 
@@ -435,7 +406,6 @@ public class ApiMetricRequestContext
 
   public void WithResourceExecutedContext(ResourceExecutedContext context, DateTime utcNow, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithResourceExecutedContext) Add tests
     if (context == null)
       return;
 
@@ -445,7 +415,6 @@ public class ApiMetricRequestContext
 
   public void WithResultExecutingContext(ResultExecutingContext context, DateTime utcNow, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithResultExecutingContext) Add tests
     if (context == null)
       return;
 
@@ -456,13 +425,11 @@ public class ApiMetricRequestContext
 
   public void WithResultExecutedContext(ResultExecutedContext context, DateTime utcNow, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithResultExecutedContext) Add tests
     SetResultsEndTime(utcNow, forceOverwrite);
   }
 
   public void WithExceptionContext(ExceptionContext context, DateTime utcNow, bool forceOverwrite = true)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.WithExceptionContext) Add tests
     if (context == null)
       return;
 
@@ -478,7 +445,6 @@ public class ApiMetricRequestContext
 
   public void CompleteMiddlewareRequest(HttpContext httpContext, DateTime utcNow)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.CompleteMiddlewareRequest) Add tests
     SetRequestEndTime(utcNow);
     SetMiddlewareEndTime(utcNow);
     WithRouteData(httpContext.GetRouteData());
@@ -490,7 +456,6 @@ public class ApiMetricRequestContext
   // Internal methods
   private ApiMetricRequestContext SetRequestCookieCount(HttpRequest request, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetRequestCookieCount) Add tests
     if (CookieCount > 0 && !forceOverwrite)
       return this;
 
@@ -503,7 +468,6 @@ public class ApiMetricRequestContext
 
   private ApiMetricRequestContext SetRequestHeaderCount(HttpRequest request, bool forceOverwrite = false)
   {
-    // TODO: [TESTS] (ApiMetricRequestContext.SetRequestHeaderCount) Add tests
     if (HeaderCount > 0 && !forceOverwrite)
       return this;
 

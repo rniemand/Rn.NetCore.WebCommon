@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -28,14 +28,12 @@ public class UserService : IUserServiceBase
   // Interface methods
   public async Task<UserDto?> GetFromIdAsync(int userId)
   {
-    // TODO: [TESTS] (UserService.GetFromIdAsync) Add tests
     await Task.CompletedTask;
     return DummyUser;
   }
 
   public async Task<UserDto?> LoginAsync(AuthenticationRequest request)
   {
-    // TODO: [TESTS] (UserService.LoginAsync) Add tests
     await Task.CompletedTask;
     DummyUser.LastSeen = DateTime.Now.AddMinutes(-30);
     return DummyUser;
@@ -43,7 +41,6 @@ public class UserService : IUserServiceBase
 
   public async Task UserSessionExtended(UserDto userDto)
   {
-    // TODO: [TESTS] (UserService.UserSessionExtended) Add tests
     await Task.CompletedTask;
   }
 }

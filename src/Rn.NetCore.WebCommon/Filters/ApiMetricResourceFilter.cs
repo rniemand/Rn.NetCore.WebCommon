@@ -17,14 +17,12 @@ public class ApiMetricResourceFilter : IResourceFilter
   // Interface methods
   public void OnResourceExecuting(ResourceExecutingContext context)
   {
-    // TODO: [TESTS] (ApiMetricResourceFilter.OnResourceExecuting) Add tests
     context.HttpContext.GetApiRequestMetricContext(_dateTime.UtcNow)
       ?.WithResourceExecutingContext(context);
   }
 
   public void OnResourceExecuted(ResourceExecutedContext context)
   {
-    // TODO: [TESTS] (ApiMetricResourceFilter.OnResourceExecuted) Add tests
     context.HttpContext.GetApiRequestMetricContext()
       ?.WithResourceExecutedContext(context, _dateTime.UtcNow);
   }

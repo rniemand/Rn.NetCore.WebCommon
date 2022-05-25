@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +17,6 @@ public abstract class AuthControllerBase<TController> : RnBaseController<TContro
   protected AuthControllerBase(IServiceProvider serviceProvider)
     : base(serviceProvider)
   {
-    // TODO: [TESTS] (AuthControllerBase) Add tests
     TokenHelper = serviceProvider.GetRequiredService<IJwtTokenHelper>();
   }
 
@@ -26,13 +25,11 @@ public abstract class AuthControllerBase<TController> : RnBaseController<TContro
   [HttpPost, Route("authenticate")]
   public virtual async Task<ActionResult<AuthenticationResponse>> Authenticate([FromBody] AuthenticationRequest request)
   {
-    // TODO: [TESTS] (AuthControllerBase.Authenticate) Add tests
     var user = await UserService.LoginAsync(request);
     var response = new AuthenticationResponse();
 
     if (user == null)
     {
-      // TODO: [LOGGING] (AuthControllerBase.Authenticate) Add logging
       return response.WithError("Login failed");
     }
 

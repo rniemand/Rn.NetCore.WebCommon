@@ -16,14 +16,12 @@ public class ApiMetricResultFilter : IResultFilter
 
   public void OnResultExecuting(ResultExecutingContext context)
   {
-    // TODO: [TESTS] (ApiMetricResultFilter.OnResultExecuting) Add tests
     context.HttpContext.GetApiRequestMetricContext()
       ?.WithResultExecutingContext(context, _dateTime.UtcNow);
   }
 
   public void OnResultExecuted(ResultExecutedContext context)
   {
-    // TODO: [TESTS] (ApiMetricResultFilter.OnResultExecuted) Add tests
     context.HttpContext.GetApiRequestMetricContext()
       ?.WithResultExecutedContext(context, _dateTime.UtcNow);
   }

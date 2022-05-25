@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using Rn.NetCore.WebCommon.Models.Dto;
 
@@ -22,7 +22,6 @@ public class AuthenticationResponse
   // Constructor
   public AuthenticationResponse()
   {
-    // TODO: [TESTS] (AuthenticationResponse) Add tests
     Token = string.Empty;
     User = null;
     Success = false;
@@ -33,7 +32,6 @@ public class AuthenticationResponse
   // Builders
   public AuthenticationResponse WithUser(string token, UserDto userDto)
   {
-    // TODO: [TESTS] (AuthenticationResponse.WithUser) Add tests
     Token = token;
     User = userDto;
     Success = (Token?.Length ?? 0) > 0 && User is not null;
@@ -42,7 +40,6 @@ public class AuthenticationResponse
 
   public AuthenticationResponse WithError(string message)
   {
-    // TODO: [TESTS] (AuthenticationResponse.WithError) Add tests
     Success = false;
     Message = message;
     return this;

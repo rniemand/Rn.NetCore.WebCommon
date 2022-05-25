@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -57,7 +57,6 @@ public class ApiMetricsMiddleware
 
   private async Task LogApiResponseMetric(HttpContext httpContext)
   {
-    // TODO: [TESTS] (ApiMetricsMiddleware.LogApiResponseMetric) Add tests
     try
     {
       // Ensure we have something to work with

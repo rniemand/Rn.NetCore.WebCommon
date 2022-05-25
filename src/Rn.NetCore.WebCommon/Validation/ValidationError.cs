@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using FluentValidation.Results;
 
@@ -13,7 +13,6 @@ public class ValidationError
 
   public ValidationError()
   {
-    // TODO: [TESTS] (ValidationError) Add tests
     IsValid = false;
     Errors = new List<string>();
     RuleSetsExecuted = Array.Empty<string>();
@@ -23,7 +22,6 @@ public class ValidationError
   public ValidationError(ValidationResult result)
     : this()
   {
-    // TODO: [TESTS] (ValidationError) Add tests
     IsValid = result.IsValid;
 
     foreach (var error in result.Errors)

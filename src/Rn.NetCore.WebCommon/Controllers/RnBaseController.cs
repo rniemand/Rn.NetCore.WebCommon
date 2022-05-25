@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +20,6 @@ public class RnBaseController<TController> : ControllerBase
   // Constructor
   public RnBaseController(IServiceProvider serviceProvider)
   {
-    // TODO: [TESTS] (RnBaseController) Add tests
     Logger = serviceProvider.GetRequiredService<ILoggerAdapter<TController>>();
     UserService = serviceProvider.GetRequiredService<IUserServiceBase>();
     _tokenHelper = serviceProvider.GetRequiredService<IJwtTokenHelper>();
@@ -30,7 +29,6 @@ public class RnBaseController<TController> : ControllerBase
   // Public methods
   protected async Task<ActionResult<TResponse>> ProcessResponseAsync<TResponse>(BaseResponse<TResponse> response)
   {
-    // TODO: [TESTS] (RnBaseController.ProcessResponseAsync) Add tests
     if (response.FailedValidation)
     {
       return BadRequest(new ValidationError(response.ValidationResult));
@@ -42,7 +40,6 @@ public class RnBaseController<TController> : ControllerBase
 
   protected ActionResult<TResponse> ProcessResponse<TResponse>(BaseResponse<TResponse> response)
   {
-    // TODO: [TESTS] (BaseController.ProcessResponse) Add tests
     return ProcessResponseAsync(response).GetAwaiter().GetResult();
   }
 
@@ -50,7 +47,6 @@ public class RnBaseController<TController> : ControllerBase
   // Internal
   private async Task ExtendUserSession()
   {
-    // TODO: [TESTS] (BaseController.ExtendUserSession) Add tests
     // ReSharper disable once ConditionIsAlwaysTrueOrFalse
     if (HttpContext is null)
       return;

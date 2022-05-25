@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Rn.NetCore.Common.Logging;
 using Rn.NetCore.WebCommon.Configuration;
 
@@ -20,7 +20,6 @@ public class RnWebCoreConfigProvider : IRnWebCoreConfigProvider
     ILoggerAdapter<RnWebCoreConfigProvider> logger,
     IConfiguration configuration)
   {
-    // TODO: [TESTS] (RnWebCoreConfigProvider.RnWebCoreConfigProvider) Add tests
     _logger = logger;
     _configuration = configuration;
 
@@ -31,7 +30,6 @@ public class RnWebCoreConfigProvider : IRnWebCoreConfigProvider
   // Interface methods
   public AuthenticationConfig GetAuthenticationConfig()
   {
-    // TODO: [TESTS] (RnWebCoreConfigProvider.GetAuthenticationConfig) Add tests
     if (_authenticationConfig is not null)
       return _authenticationConfig;
 

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using FluentValidation.Results;
 using Rn.NetCore.WebCommon.Models.Requests;
 
@@ -10,7 +10,6 @@ public class AdHockValidator
 
   public AdHockValidator()
   {
-    // TODO: [TESTS] (AdHockValidator) Add tests
     Errors = new List<ValidationFailure>();
   }
 
@@ -48,7 +47,6 @@ public class AdHockValidator
 
   public AdHockValidator IsOwner(BaseApiRequest request, int? userId)
   {
-    // TODO: [TESTS] (AdHockValidator.IsOwner) Add tests
     var saveUserId = userId ?? 0;
 
     if (saveUserId == 0)
@@ -74,7 +72,6 @@ public class AdHockValidator
 
   public AdHockValidator NotNull(string objName, object obj)
   {
-    // TODO: [TESTS] (AdHockValidator.NotNull) Add tests
     if (obj == null)
     {
       Errors.Add(new ValidationFailure(objName, $"{objName} cannot be null"));

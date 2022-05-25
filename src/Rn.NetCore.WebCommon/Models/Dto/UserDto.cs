@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
@@ -14,30 +14,17 @@ public class UserDto
   public DateTime? LastSeen { get; set; }
 
   [JsonProperty("firstName"), JsonPropertyName("firstName")]
-  public string FirstName { get; set; }
+  public string FirstName { get; set; } = string.Empty;
 
   [JsonProperty("lastName"), JsonPropertyName("lastName")]
-  public string LastName { get; set; }
+  public string LastName { get; set; } = string.Empty;
 
   [JsonProperty("username"), JsonPropertyName("username")]
-  public string Username { get; set; }
+  public string Username { get; set; } = string.Empty;
 
   [JsonProperty("email"), JsonPropertyName("email")]
-  public string Email { get; set; }
+  public string Email { get; set; } = string.Empty;
 
   [JsonProperty("attributes"), JsonPropertyName("attributes")]
-  public Dictionary<string, object> Attributes { get; set; }
-
-  // Constructor
-  public UserDto()
-  {
-    // TODO: [TESTS] (UserDto) Add tests
-    UserId = 0;
-    LastSeen = null;
-    FirstName = string.Empty;
-    LastName = string.Empty;
-    Username = string.Empty;
-    Email = string.Empty;
-    Attributes = new Dictionary<string, object>();
-  }
+  public Dictionary<string, object> Attributes { get; set; } = new();
 }

@@ -1,4 +1,4 @@
-﻿using Rn.NetCore.Metrics.Models;
+using Rn.NetCore.Metrics.Models;
 using Rn.NetCore.WebCommon.Models;
 
 namespace Rn.NetCore.WebCommon.Metrics;
@@ -9,7 +9,6 @@ public class NullApiCallMetricBuilder : IApiCallMetricBuilder
 
   public NullApiCallMetricBuilder()
   {
-    // TODO: [TESTS] (NullApiCallMetricBuilder) Add tests
     IsNullMetricBuilder = true;
   }
 

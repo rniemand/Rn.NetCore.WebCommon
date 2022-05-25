@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using FluentValidation;
 using FluentValidation.Results;
 using Rn.NetCore.WebCommon.Validation;
@@ -14,7 +14,6 @@ public class BaseResponse<TResponse>
 
   public BaseResponse()
   {
-    // TODO: [TESTS] (BaseResponse) Add tests
     Response = default;
     ValidationResult = new ValidationResult();
   }
@@ -22,7 +21,6 @@ public class BaseResponse<TResponse>
   public BaseResponse(TResponse response)
     : this()
   {
-    // TODO: [TESTS] (BaseResponse) Add tests
     Response = response;
   }
 
@@ -34,7 +32,6 @@ public class BaseResponse<TResponse>
 
   public BaseResponse<TResponse> WithValidation<TInstance>(TInstance instance, AbstractValidator<TInstance> validator, string ruleSet)
   {
-    // TODO: [TESTS] (BaseResponse.WithValidation) Add tests
     // No need to run additional validators if we have failed validation already
     if (FailedValidation)
       return this;
@@ -45,7 +42,6 @@ public class BaseResponse<TResponse>
 
   public BaseResponse<TResponse> WithValidation(AdHockValidator validator)
   {
-    // TODO: [TESTS] (BaseResponse.WithValidation) Add tests
     // No need to run additional validators if we have failed validation already
     if (FailedValidation)
       return this;
@@ -56,7 +52,6 @@ public class BaseResponse<TResponse>
 
   public BaseResponse<TResponse> WithValidation(ValidationResult result)
   {
-    // TODO: [TESTS] (BaseResponse.WithValidation) Add tests
     // No need to run additional validators if we have failed validation already
     if (FailedValidation)
       return this;
@@ -67,7 +62,6 @@ public class BaseResponse<TResponse>
 
   public BaseResponse<TResponse> WithValidationError(string property, string message)
   {
-    // TODO: [TESTS] (BaseResponse.WithValidationError) Add tests
     // No need to run additional validators if we have failed validation already
     if (FailedValidation)
       return this;
@@ -82,7 +76,6 @@ public class BaseResponse<TResponse>
 
   public BaseResponse<TResponse> WithIdNotFound(string objectName, int id)
   {
-    // TODO: [TESTS] (BaseResponse.WithIdNotFound) Add tests
     // No need to run additional validators if we have failed validation already
     return FailedValidation
       ? this

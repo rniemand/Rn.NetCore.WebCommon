@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Rn.NetCore.Common.Extensions;
 using Rn.NetCore.WebCommon.Models.Dto;
 
@@ -9,7 +9,6 @@ public static class UserDtoExtensions
   // TODO: [MOVE] (UserDtoExtensions) Move to Rn.NetCore.WebCommon
   public static int GetIntAttribute(this UserDto user, string attribute, int fallback)
   {
-    // TODO: [TESTS] (UserDtoExtensions.GetIntAttribute) Add tests
     var rawAttribute = user.GetRawAttribute(attribute);
 
     // ReSharper disable once ConvertIfStatementToSwitchStatement
@@ -30,7 +29,6 @@ public static class UserDtoExtensions
 
   public static bool HasAttribute(this UserDto user, string attribute)
   {
-    // TODO: [TESTS] (UserDtoExtensions.HasAttribute) Add tests
     if (user is null)
       return false;
 
@@ -43,7 +41,6 @@ public static class UserDtoExtensions
 
   public static object GetRawAttribute(this UserDto user, string attribute)
   {
-    // TODO: [TESTS] (UserDtoExtensions.GetRawAttribute) Add tests
     if (user is null || !user.HasAttribute(attribute))
       return null;
 
@@ -55,7 +52,6 @@ public static class UserDtoExtensions
 
   public static UserDto SetAttribute(this UserDto user, string attribute, int value)
   {
-    // TODO: [TESTS] (UserDtoExtensions.SetAttribute) Add tests
     user.Attributes[attribute] = value;
     return user;
   }
