@@ -1,45 +1,36 @@
+using Rn.NetCore.Metrics;
 using Rn.NetCore.Metrics.Builders;
-using Rn.NetCore.Metrics.Enums;
-using Rn.NetCore.Metrics.Models;
 using Rn.NetCore.WebCommon.Models;
 
 namespace Rn.NetCore.WebCommon.Metrics;
 
-public class ApiCallMetricBuilder : MetricBuilderBase, IApiCallMetricBuilder
+public class ApiCallMetricBuilder : CoreMetricBuilder<ApiCallMetricBuilder>
 {
-  public bool IsNullMetricBuilder { get; }
+  private string _controller = MetricPlaceholder.Unset;
+  private string _action = MetricPlaceholder.Unset;
+  private string _requestMethod = MetricPlaceholder.Unset;
+  private string _requestContentType = MetricPlaceholder.None;
+  private string _responseContentType = MetricPlaceholder.Unset;
+  private string _requestProtocol = MetricPlaceholder.Unset;
+  private string _requestScheme = MetricPlaceholder.Unset;
+  private string _requestHost = MetricPlaceholder.None;
+  private double _actionTime;
+  private double _resultTime;
+  private double _middlewareTime;
+  private double _exceptionTime;
+  private long _requestContentLength;
+  private long _responseContentLength;
+  private int _responseCode;
+  private int _requestCookies;
+  private int _requestHeaderCount;
+  private int _responseHeaderCount;
+  private int _requestPort;
+  private bool _ranAction;
+  private bool _ranResult;
 
-  // Constructors
   public ApiCallMetricBuilder()
     : base("api_call")
-  {
-    IsNullMetricBuilder = false;
-
-    // Set Tags
-    SetTag(Tags.Controller, MetricPlaceholder.Unset);
-    SetTag(Tags.Action, MetricPlaceholder.Unset);
-    SetTag(Tags.Method, MetricPlaceholder.Unset);
-    SetTag(Tags.ContentType, MetricPlaceholder.None);
-    SetTag(Tags.Protocol, MetricPlaceholder.Unset);
-    SetTag(Tags.Scheme, MetricPlaceholder.Unset);
-    SetTag(Tags.Host, MetricPlaceholder.None);
-    SetTag(Tags.ResponseCode, "0"); // TODO: INT THIS
-    SetTag(Tags.ResponseContentType, MetricPlaceholder.Unset);
-    SetTag(Tags.RanAction, false);
-    SetTag(Tags.RanResult, false);
-
-    // Set Fields
-    SetField(Fields.ActionTime, (double)0);
-    SetField(Fields.ResultTime, (double)0);
-    SetField(Fields.MiddlewareTime, (double)0);
-    SetField(Fields.ExceptionTime, (double)0);
-    SetField(Fields.ContentLength, (long)0);
-    SetField(Fields.CookieCount, 0);
-    SetField(Fields.HeaderCount, 0);
-    SetField(Fields.Port, 0);
-    SetField(Fields.ResponseContentLength, (long)0);
-    SetField(Fields.ResponseHeaderCount, 0);
-  }
+  { }
 
   public ApiCallMetricBuilder(ApiMetricRequestContext metricContext)
     : this()
@@ -47,9 +38,7 @@ public class ApiCallMetricBuilder : MetricBuilderBase, IApiCallMetricBuilder
     WithApiMetricRequestContext(metricContext);
   }
 
-
-  // Builder Methods
-  public IApiCallMetricBuilder WithActionTime(ApiMetricRequestContext context)
+  public ApiCallMetricBuilder WithActionTime(ApiMetricRequestContext context)
   {
     if (context?.ActionStartTime == null || !context.ActionEndTime.HasValue)
       return this;
@@ -57,15 +46,12 @@ public class ApiCallMetricBuilder : MetricBuilderBase, IApiCallMetricBuilder
     if (context.ActionStartTime.Value > context.ActionEndTime.Value)
       return this;
 
-    SetTag(Tags.RanAction, true);
-    SetField(Fields.ActionTime,
-      (context.ActionEndTime.Value - context.ActionStartTime.Value).TotalMilliseconds
-    );
-
+    _ranAction = true;
+    _actionTime = (context.ActionEndTime.Value - context.ActionStartTime.Value).TotalMilliseconds;
     return this;
   }
 
-  public IApiCallMetricBuilder WithResultTime(ApiMetricRequestContext context)
+  public ApiCallMetricBuilder WithResultTime(ApiMetricRequestContext context)
   {
     if (context?.ResultsStartTime == null || !context.ResultsEndTime.HasValue)
       return this;
@@ -73,15 +59,12 @@ public class ApiCallMetricBuilder : MetricBuilderBase, IApiCallMetricBuilder
     if (context.ResultsStartTime.Value > context.ResultsEndTime.Value)
       return this;
 
-    SetTag(Tags.RanResult, true);
-    SetField(Fields.ResultTime,
-      (context.ResultsEndTime.Value - context.ResultsStartTime.Value).TotalMilliseconds
-    );
-
+    _ranResult = true;
+    _resultTime = (context.ResultsEndTime.Value - context.ResultsStartTime.Value).TotalMilliseconds;
     return this;
   }
 
-  public IApiCallMetricBuilder WithMiddlewareTime(ApiMetricRequestContext context)
+  public ApiCallMetricBuilder WithMiddlewareTime(ApiMetricRequestContext context)
   {
     if (context?.MiddlewareStartTime == null || !context.MiddlewareEndTime.HasValue)
       return this;
@@ -89,14 +72,11 @@ public class ApiCallMetricBuilder : MetricBuilderBase, IApiCallMetricBuilder
     if (context.MiddlewareStartTime.Value > context.MiddlewareEndTime.Value)
       return this;
 
-    SetField(Fields.MiddlewareTime,
-      (context.MiddlewareEndTime.Value - context.MiddlewareStartTime.Value).TotalMilliseconds
-    );
-
+    _middlewareTime = (context.MiddlewareEndTime.Value - context.MiddlewareStartTime.Value).TotalMilliseconds;
     return this;
   }
 
-  public IApiCallMetricBuilder WithExceptionTime(ApiMetricRequestContext context)
+  public ApiCallMetricBuilder WithExceptionTime(ApiMetricRequestContext context)
   {
     if (context?.ExThrownTime == null || !context.StartTime.HasValue)
       return this;
@@ -104,15 +84,12 @@ public class ApiCallMetricBuilder : MetricBuilderBase, IApiCallMetricBuilder
     if (context.StartTime.Value > context.ExThrownTime.Value)
       return this;
 
-    SetTag(MetricTag.HasException, true);
-    SetField(Fields.ExceptionTime,
-      (context.ExThrownTime.Value - context.StartTime.Value).TotalMilliseconds
-    );
-
+    SetException(context.ExceptionName);
+    _exceptionTime = (context.ExThrownTime.Value - context.StartTime.Value).TotalMilliseconds;
     return this;
   }
 
-  public IApiCallMetricBuilder WithRequestRunTime(ApiMetricRequestContext context)
+  public ApiCallMetricBuilder WithRequestRunTime(ApiMetricRequestContext context)
   {
     if (context?.StartTime == null || !context.EndTime.HasValue)
       return this;
@@ -120,105 +97,101 @@ public class ApiCallMetricBuilder : MetricBuilderBase, IApiCallMetricBuilder
     if (context.StartTime > context.EndTime)
       return this;
 
-    SetField(MetricField.Value,
-      (context.EndTime.Value - context.StartTime.Value).TotalMilliseconds
-    );
-
+    AddAction(m => m.SetField("value", (context.EndTime.Value - context.StartTime.Value).TotalMilliseconds));
     return this;
   }
 
-  public IApiCallMetricBuilder WithController(string controller)
+  public ApiCallMetricBuilder WithController(string controller)
   {
     if (!string.IsNullOrWhiteSpace(controller))
-      SetTag(Tags.Controller, controller, true);
+      _controller = controller.Trim();
 
     return this;
   }
 
-  public IApiCallMetricBuilder WithAction(string action)
+  public ApiCallMetricBuilder WithAction(string action)
   {
     if (!string.IsNullOrWhiteSpace(action))
-      SetTag(Tags.Action, action, true);
+      _action = action;
 
     return this;
   }
 
-  public IApiCallMetricBuilder WithExceptionName(string exceptionName)
+  public ApiCallMetricBuilder WithExceptionName(string exceptionName)
   {
     if (string.IsNullOrWhiteSpace(exceptionName))
       return this;
 
     SetException(exceptionName);
-
     return this;
   }
 
-  public IApiCallMetricBuilder WithRequestMethod(string method)
+  public ApiCallMetricBuilder WithRequestMethod(string method)
   {
     if (!string.IsNullOrWhiteSpace(method))
-      SetTag(Tags.Method, method, true);
+      _requestMethod = method;
 
     return this;
   }
 
-  public IApiCallMetricBuilder WithRequestContentType(string contentType)
+  public ApiCallMetricBuilder WithRequestContentType(string contentType)
   {
     if (!string.IsNullOrWhiteSpace(contentType))
-      SetTag(Tags.ContentType, contentType);
+      _requestContentType = contentType;
 
     return this;
   }
 
-  public IApiCallMetricBuilder WithRequestProtocol(string protocol)
+  public ApiCallMetricBuilder WithRequestProtocol(string protocol)
   {
     if (!string.IsNullOrWhiteSpace(protocol))
-      SetTag(Tags.Protocol, protocol);
+      _requestProtocol = protocol;
 
     return this;
   }
 
-  public IApiCallMetricBuilder WithRequestScheme(string scheme)
+  public ApiCallMetricBuilder WithRequestScheme(string scheme)
   {
     if (!string.IsNullOrWhiteSpace(scheme))
-      SetTag(Tags.Scheme, scheme);
+      _requestScheme = scheme;
 
     return this;
   }
 
-  public IApiCallMetricBuilder WithRequestHost(string host)
+  public ApiCallMetricBuilder WithRequestHost(string host)
   {
     if (!string.IsNullOrWhiteSpace(host))
-      SetTag(Tags.Host, host);
+      _requestHost = host;
 
     return this;
   }
 
-  public IApiCallMetricBuilder WithResponseCode(int responseCode)
+  public ApiCallMetricBuilder WithResponseCode(int responseCode)
   {
-    SetTag(Tags.ResponseCode, responseCode);
+    _responseCode = responseCode;
     return this;
   }
 
-  public IApiCallMetricBuilder WithResponseContentType(string contentType)
+  public ApiCallMetricBuilder WithResponseContentType(string contentType)
   {
     if (!string.IsNullOrWhiteSpace(contentType))
-      SetTag(Tags.ResponseContentType, contentType);
+      _responseContentType = contentType;
 
     return this;
   }
 
-  public IApiCallMetricBuilder WithApiMetricRequestContext(ApiMetricRequestContext context)
+  public ApiCallMetricBuilder WithApiMetricRequestContext(ApiMetricRequestContext context)
   {
     if (context == null)
       return this;
 
     // Update Fields
-    SetField(Fields.ContentLength, context.ContentLength);
-    SetField(Fields.CookieCount, context.CookieCount);
-    SetField(Fields.HeaderCount, context.HeaderCount);
-    SetField(Fields.Port, context.Port);
-    SetField(Fields.ResponseContentLength, context.ResponseContentLength);
-    SetField(Fields.ResponseHeaderCount, context.ResponseHeaderCount);
+    _requestContentLength = context.ContentLength;
+    _requestCookies = context.CookieCount;
+    _requestHeaderCount = context.HeaderCount;
+    _requestPort = context.Port;
+    _responseContentLength = context.ResponseContentLength;
+    _responseHeaderCount = context.ResponseHeaderCount;
 
     return WithRequestRunTime(context)
       .WithActionTime(context)
@@ -237,41 +210,33 @@ public class ApiCallMetricBuilder : MetricBuilderBase, IApiCallMetricBuilder
       .WithResponseContentType(context.ContentType);
   }
 
-
-  // Build()
-  public CoreMetric Build()
+  public override CoreMetric Build()
   {
-    return CoreMetric;
-  }
+    // Set ApiCallMetricBuilder specific fields and tags
+    AddAction(m => m.SetTag("controller", _controller, true))
+      .AddAction(m => m.SetTag("action", _action, true))
+      .AddAction(m => m.SetTag("request_method", _requestMethod, true))
+      .AddAction(m => m.SetTag("request_content_type", _requestContentType))
+      .AddAction(m => m.SetTag("request_protocol", _requestProtocol))
+      .AddAction(m => m.SetTag("request_scheme", _requestScheme))
+      .AddAction(m => m.SetTag("request_host", _requestHost))
+      .AddAction(m => m.SetTag("response_code", _responseCode))
+      .AddAction(m => m.SetTag("response_content_type", _responseContentType))
+      .AddAction(m => m.SetTag("ran_action", _ranAction))
+      .AddAction(m => m.SetTag("ran_result", _ranResult))
+      // Set default fields
+      .AddAction(m => m.SetField("action_ms", _actionTime))
+      .AddAction(m => m.SetField("result_ms", _resultTime))
+      .AddAction(m => m.SetField("middleware_ms", _middlewareTime))
+      .AddAction(m => m.SetField("exception_ms", _exceptionTime))
+      .AddAction(m => m.SetField("request_content_length", _requestContentLength))
+      .AddAction(m => m.SetField("request_cookies", _requestCookies))
+      .AddAction(m => m.SetField("request_headers", _requestHeaderCount))
+      .AddAction(m => m.SetField("request_port", _requestPort))
+      .AddAction(m => m.SetField("response_content_length", _responseContentLength))
+      .AddAction(m => m.SetField("response_headers", _responseHeaderCount));
 
-
-  // Misc.
-  private static class Tags
-  {
-    public const string Controller = "controller";
-    public const string Action = "action";
-    public const string Method = "request_method";
-    public const string ContentType = "request_content_type";
-    public const string Protocol = "request_protocol";
-    public const string Scheme = "request_scheme";
-    public const string Host = "request_host";
-    public const string ResponseCode = "response_code";
-    public const string ResponseContentType = "response_content_type";
-    public const string RanAction = "ran_action";
-    public const string RanResult = "ran_result";
-  }
-
-  private static class Fields
-  {
-    public const string ActionTime = "action_ms";
-    public const string ResultTime = "result_ms";
-    public const string MiddlewareTime = "middleware_ms";
-    public const string ExceptionTime = "exception_ms";
-    public const string ContentLength = "request_content_length";
-    public const string CookieCount = "request_cookies";
-    public const string HeaderCount = "request_headers";
-    public const string Port = "request_port";
-    public const string ResponseContentLength = "response_content_length";
-    public const string ResponseHeaderCount = "response_headers";
+    // Allow the base metric to build
+    return base.Build();
   }
 }

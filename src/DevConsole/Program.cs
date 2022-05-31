@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using DevApplication.Common.Services;
 using Microsoft.Extensions.Configuration;
@@ -8,8 +8,7 @@ using NLog.Extensions.Logging;
 using Rn.NetCore.Common.Abstractions;
 using Rn.NetCore.Common.Helpers;
 using Rn.NetCore.Common.Logging;
-using Rn.NetCore.Metrics;
-using Rn.NetCore.Metrics.Outputs;
+using Rn.NetCore.Metrics.Extensions;
 using Rn.NetCore.WebCommon.Helpers;
 using Rn.NetCore.WebCommon.Providers;
 using Rn.NetCore.WebCommon.Services;
@@ -62,9 +61,7 @@ class Program
       .AddSingleton<IRnWebCoreConfigProvider, RnWebCoreConfigProvider>()
 
       // Metrics
-      .AddSingleton<IMetricServiceUtils, MetricServiceUtils>()
-      .AddSingleton<IMetricService, MetricService>()
-      .AddSingleton<IMetricOutput, CsvMetricOutput>()
+      .AddRnMetricsBase(config)
 
       // Logging
       .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>))

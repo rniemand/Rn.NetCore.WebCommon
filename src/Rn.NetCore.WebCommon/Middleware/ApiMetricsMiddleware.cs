@@ -64,9 +64,7 @@ public class ApiMetricsMiddleware
       if (metricContext == null) return;
       metricContext.CompleteMiddlewareRequest(httpContext, _dateTime.UtcNow);
 
-      await _metrics.SubmitBuilderAsync(
-        new ApiCallMetricBuilder(metricContext)
-      );
+      await _metrics.SubmitAsync(new ApiCallMetricBuilder(metricContext));
     }
     catch (Exception ex)
     {
