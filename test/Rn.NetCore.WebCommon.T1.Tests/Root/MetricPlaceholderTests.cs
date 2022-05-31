@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
+using Rn.NetCore.Metrics;
 
 namespace Rn.NetCore.WebCommon.T1.Tests.Root;
 

@@ -1,4 +1,4 @@
-﻿namespace Rn.NetCore.WebCommon;
+namespace Rn.NetCore.WebCommon;
 
 public static class WebKeys
 {
