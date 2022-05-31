@@ -28,8 +28,6 @@ public class ApiMetricExceptionFilter : IExceptionFilter
 
     metricContext.WithExceptionContext(context, _dateTime.UtcNow);
 
-    _metrics.SubmitBuilderAsync(
-      new ApiCallMetricBuilder(metricContext)
-    );
+    _metrics.Submit(new ApiCallMetricBuilder(metricContext));
   }
 }

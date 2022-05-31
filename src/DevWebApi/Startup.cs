@@ -8,7 +8,7 @@ using Microsoft.OpenApi.Models;
 using Rn.NetCore.Common.Abstractions;
 using Rn.NetCore.Common.Helpers;
 using Rn.NetCore.Common.Logging;
-using Rn.NetCore.Metrics;
+using Rn.NetCore.Metrics.Extensions;
 using Rn.NetCore.WebCommon.Filters;
 using Rn.NetCore.WebCommon.Helpers;
 using Rn.NetCore.WebCommon.Middleware;
@@ -46,8 +46,7 @@ public class Startup
       .AddSingleton<IRnWebCoreConfigProvider, RnWebCoreConfigProvider>()
 
       // Metrics
-      .AddSingleton<IMetricServiceUtils, MetricServiceUtils>()
-      .AddSingleton<IMetricService, MetricService>()
+      .AddRnMetricsBase(Configuration)
 
       // Logging
       .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
